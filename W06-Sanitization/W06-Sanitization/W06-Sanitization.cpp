@@ -43,7 +43,7 @@ int main()
         << genQuery(weakMitigation(username), weakMitigation(password)) 
         << endl << endl;
     cout << "Strong Mitigation:\n\t" 
-        << genQuery(weakMitigation(username), weakMitigation(password))
+        << genQuery(strongMitigation(username), strongMitigation(password))
         << endl << endl;
     return 0;
 }
