@@ -9,16 +9,17 @@
 #include <string>
 #include <vector>
 #include <locale> // tolower
+#include <regex>
 
 using namespace std;
-static string weakMidigation(string value);
-static string strongMidigation(string value);
+static string weakMitigation(string value);
+static string strongMitigation(string value);
 static void testTautology();
 static void testUnion();
 static void testAddStatement();
 static void testComment();
 static vector<string> split(string value, char delimiter);
-static string join(vector<string> values, char delimeter);
+static string join(vector<string> values, char delimiter);
 static string to_lower(string s);
 
 int main()
@@ -48,13 +49,14 @@ int main()
  * satisfy as a valid username and password,
  * namely: letters, numbers, and underscores
  *****************************************/
-static string strongMidigation(string value)
+static string strongMitigation(string value)
 {
     // split the sql up into a vector of strings
     vector<string> splitValues = split(value, ' ');
     string sanitized = "";
+	regex filterString("^[a-zA-Z0-9_]+$");
 
-    // whitelist the value input to contain only valid characters
+		// whitelist the value input to contain only valid characters
     // put the valid query in sanitized
 
     return sanitized;
@@ -69,7 +71,7 @@ static string strongMidigation(string value)
 * semicolons
 * comments (--)
 *****************************************/
-static string weakMidigation(string value) 
+static string weakMitigation(string value) 
 {
     // split the sql
     vector<string> splitValues = split(value, ' ');
@@ -115,7 +117,7 @@ static void testTautology()
     string password = "nothing' OR 'x' = 'x'";
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
-                        "WHERE name='" + weakMidigation(username) + "' and passwd='" + weakMidigation(password) + "';";
+                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
     string strongCleanSql; // insert strongMidigation call here
     cout << "testTautology results: \n";
     cout << weakCleanSql << endl << endl;
@@ -127,7 +129,7 @@ static void testUnion()
     string password = "nothing' UNION SELECT authenticate FROM passwordList";
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
-                        "WHERE name='" + weakMidigation(username) + "' and passwd='" + weakMidigation(password) + "';";
+                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
     string strongCleanSql; // insert strongMidigation call here
     cout << "testUnion results: \n";
     cout << weakCleanSql << endl << endl;
@@ -139,7 +141,7 @@ static void testAddStatement()
     string password = "nothing'; INSERT INTO passwordList (name, passwd) VALUES 'Bob', '1234";
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
-                        "WHERE name='" + weakMidigation(username) + "' and passwd='" + weakMidigation(password) + "';";
+                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
     string strongCleanSql; // insert strongMidigation call here
     cout << "testAddStatement results: \n";
     cout << weakCleanSql << endl << endl;
@@ -151,7 +153,7 @@ static void testComment()
     string password = "'nothing";
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
-                        "WHERE name='" + weakMidigation(username) + "' and passwd='" + weakMidigation(password) + "';";
+                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
     string strongCleanSql; // insert strongMidigation call here
     cout << "testComment results: \n";
     cout << weakCleanSql << endl << endl;
