@@ -61,7 +61,10 @@ static string strongMitigation(string value)
     // split the sql up into a vector of strings
     vector<string> splitValues = split(value, ' ');
     // The std::regex to filter the sql string with
-    const regex filterString = regex("^[a-zA-Z0-9_]+$");
+    // Use '^' on the bracketed rule to invert it
+    // Then, the regex_replace() function will remove all
+    // characters that don't match the rule: [a-zA-Z0-9_]
+    const regex filterString = regex("^[^a-zA-Z0-9_]+$");
     
     // whitelist the value input to contain only valid characters
     // put the valid query in sanitized
