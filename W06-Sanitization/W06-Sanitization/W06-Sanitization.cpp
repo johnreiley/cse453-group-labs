@@ -120,9 +120,13 @@ static void testTautology()
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
                         "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
-    string strongCleanSql; // insert strongMidigation call here
+    string strongCleanSql = "SELECT authenticate\n" 
+                        "FROM passwordList\n" 
+                        "WHERE name='" + strongMitigation(username) + 
+                        "' and passwd='" + strongMitigation(password) + "';";
     cout << "testTautology results: \n";
-    cout << weakCleanSql << endl << endl;
+    cout << "Weak Mitigation: " << weakCleanSql << endl << endl;
+    cout << "Strong Mitigation: " << strongCleanSql << endl << endl;
 }
 
 static void testUnion() 
@@ -132,9 +136,13 @@ static void testUnion()
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
                         "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
-    string strongCleanSql; // insert strongMidigation call here
+    string strongCleanSql = "SELECT authenticate\n" 
+                        "FROM passwordList\n" 
+                        "WHERE name='" + strongMitigation(username) + 
+                        "' and passwd='" + strongMitigation(password) + "';";
     cout << "testUnion results: \n";
-    cout << weakCleanSql << endl << endl;
+    cout << "Weak Mitigation: " << weakCleanSql << endl << endl;
+    cout << "Strong Mitigation: " << strongCleanSql << endl << endl;
 }
 
 static void testAddStatement()
@@ -144,9 +152,13 @@ static void testAddStatement()
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
                         "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
-    string strongCleanSql; // insert strongMidigation call here
+    string strongCleanSql = "SELECT authenticate\n" 
+                        "FROM passwordList\n" 
+                        "WHERE name='" + strongMitigation(username) + 
+                        "' and passwd='" + strongMitigation(password) + "';";
     cout << "testAddStatement results: \n";
-    cout << weakCleanSql << endl << endl;
+    cout << "Weak Mitigation: " << weakCleanSql << endl << endl;
+    cout << "Strong Mitigation: " << strongCleanSql << endl << endl;
 }
 
 static void testComment()
@@ -156,9 +168,13 @@ static void testComment()
     string weakCleanSql = "SELECT authenticate\n" 
                         "FROM passwordList\n" 
                         "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
-    string strongCleanSql; // insert strongMidigation call here
+    string strongCleanSql = "SELECT authenticate\n" 
+                        "FROM passwordList\n" 
+                        "WHERE name='" + strongMitigation(username) + 
+                        "' and passwd='" + strongMitigation(password) + "';";
     cout << "testComment results: \n";
-    cout << weakCleanSql << endl << endl;
+    cout << "Weak Mitigation: " << weakCleanSql << endl << endl;
+    cout << "Strong Mitigation: " << strongCleanSql << endl << endl;
 }
 
 static vector<string> split(string value, char delimeter)
