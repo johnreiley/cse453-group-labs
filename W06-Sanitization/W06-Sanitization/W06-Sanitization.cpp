@@ -12,6 +12,7 @@
 
 using namespace std;
 static string weakMidigation(string value);
+static string strongMidigation(string value);
 static void testTautology();
 static void testUnion();
 static void testAddStatement();
@@ -35,9 +36,28 @@ int main()
     cin >> password; 
 
     cout << endl;
+    // Shouldn't this be in a genQuery() standard function?
     cout << "SELECT authenticate" << endl 
         << "FROM passwordList" << endl 
         << "WHERE name=" + username + " and password=" + password;
+}
+
+/*****************************************
+ * This function whitelists the input by 
+ * retaining only those characters that 
+ * satisfy as a valid username and password,
+ * namely: letters, numbers, and underscores
+ *****************************************/
+static string strongMidigation(string value)
+{
+    // split the sql up into a vector of strings
+    vector<string> splitValues = split(value, ' ');
+    string sanitized = "";
+
+    // whitelist the value input to contain only valid characters
+    // put the valid query in sanitized
+
+    return sanitized;
 }
 
 /*****************************************
