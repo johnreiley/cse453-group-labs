@@ -58,10 +58,13 @@ static string genQuery(const string & username, const string & password)
 }
 
 /*****************************************
- * This function whitelists the input by 
- * retaining only those characters that 
- * satisfy as a valid username and password,
- * namely: letters, numbers, and underscores
+ * This function takes in any value and 
+ * whitelists it via a regex. If the string
+ * matches the regex, the string is returned
+ * as a valid value. If the string
+ * doesn't match the regex, an empty
+ * string to mitigate any possible vulnerabilty
+ * is returned.
  *****************************************/
 static string strongMitigation(string value)
 {
@@ -141,15 +144,15 @@ static void testTautology()
     
     // Second Test Case
     string username2 = "Root";
-    string password2 = "nothing’ OR 1";
-    string weakCleanSql = genQuery(weakMitigation(username2),
+    string password2 = "truthy’ OR 1; --";
+    string weakCleanSql2 = genQuery(weakMitigation(username2),
                                     weakMitigation(password2));
 
-    string strongCleanSql = genQuery(strongMitigation(username2),
+    string strongCleanSql2 = genQuery(strongMitigation(username2),
                                       strongMitigation(password2));
     cout << "No Mitigation:\n\t" << genQuery(username2, password2) << endl << endl;
-    cout << "Weak Mitigation:\n\t" << weakCleanSql << endl << endl;
-    cout << "Strong Mitigation:\n\t" << strongCleanSql << endl << endl;
+    cout << "Weak Mitigation:\n\t" << weakCleanSql2 << endl << endl;
+    cout << "Strong Mitigation:\n\t" << strongCleanSql2 << endl << endl;
 }
 
 static void testUnion() 
@@ -168,17 +171,16 @@ static void testUnion()
     
     // Second Test Case
     string username2 = "Root";
-    string password2 = "nothing' \nUNION SELECT * FROM passwordList; --";
-    string weakCleanSql = genQuery(weakMitigation(username2),
+    string password2 = "gimme' \nUNION SELECT * FROM passwordList; -- ";
+    string weakCleanSql2 = genQuery(weakMitigation(username2),
                                     weakMitigation(password2));
 
-    string strongCleanSql = genQuery(strongMitigation(username2),
+    string strongCleanSql2 = genQuery(strongMitigation(username2),
                                       strongMitigation(password2));
     cout << "No Mitigation:\n\t" << genQuery(username2, password2) << endl << endl;
-    cout << "Weak Mitigation:\n\t" << weakCleanSql << endl << endl;
-    cout << "Strong Mitigation:\n\t" << strongCleanSql << endl << endl;
+    cout << "Weak Mitigation:\n\t" << weakCleanSql2 << endl << endl;
+    cout << "Strong Mitigation:\n\t" << strongCleanSql2 << endl << endl;
 }
-
 static void testAddStatement()
 {
     string username = "Root";
@@ -195,15 +197,15 @@ static void testAddStatement()
     
     // Second Test Case
     string username2 = "Admin";
-    string password2 = "Booga’; SELECT * FROM passwordList;";
-    string weakCleanSql = genQuery(weakMitigation(username2),
+    string password2 = "Booga’; SELECT * FROM passwordList;--";
+    string weakCleanSql2 = genQuery(weakMitigation(username2),
                                     weakMitigation(password2));
 
-    string strongCleanSql = genQuery(strongMitigation(username2),
+    string strongCleanSql2 = genQuery(strongMitigation(username2),
                                       strongMitigation(password2));
     cout << "No Mitigation:\n\t" << genQuery(username2, password2) << endl << endl;
-    cout << "Weak Mitigation:\n\t" << weakCleanSql << endl << endl;
-    cout << "Strong Mitigation:\n\t" << strongCleanSql << endl << endl;
+    cout << "Weak Mitigation:\n\t" << weakCleanSql2 << endl << endl;
+    cout << "Strong Mitigation:\n\t" << strongCleanSql2 << endl << endl;
 }
 
 static void testComment()
@@ -222,15 +224,15 @@ static void testComment()
     
     // Second Test Case
     string username2 = "Admin’;-- ";
-    string password2 = "anythingIWant ;
-    string weakCleanSql = genQuery(weakMitigation(username2),
+    string password2 = "anythingIWant";
+    string weakCleanSql2 = genQuery(weakMitigation(username2),
                                     weakMitigation(password2));
 
-    string strongCleanSql = genQuery(strongMitigation(username2),
+    string strongCleanSql2 = genQuery(strongMitigation(username2),
                                       strongMitigation(password2));
     cout << "No Mitigation:\n\t" << genQuery(username2, password2) << endl << endl;
-    cout << "Weak Mitigation:\n\t" << weakCleanSql << endl << endl;
-    cout << "Strong Mitigation:\n\t" << strongCleanSql << endl << endl;
+    cout << "Weak Mitigation:\n\t" << weakCleanSql2 << endl << endl;
+    cout << "Strong Mitigation:\n\t" << strongCleanSql2 << endl << endl;
 }
 
 static vector<string> split(string value, char delimeter)
