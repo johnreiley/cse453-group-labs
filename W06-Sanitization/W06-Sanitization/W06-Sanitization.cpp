@@ -40,7 +40,7 @@ int main()
     // Shouldn't this be in a genQuery() standard function?
     cout << "SELECT authenticate" << endl 
         << "FROM passwordList" << endl 
-        << "WHERE name=" + username + " and password=" + password;
+        << "WHERE name=" + username + " AND password=" + password;
 }
 
 /*****************************************
@@ -53,11 +53,13 @@ static string strongMitigation(string value)
 {
     // split the sql up into a vector of strings
     vector<string> splitValues = split(value, ' ');
-    string sanitized = "";
-	regex filterString("^[a-zA-Z0-9_]+$");
-
-		// whitelist the value input to contain only valid characters
+    // The std::regex to filter the sql string with
+    const regex filterString = "^[a-zA-Z0-9_]+$";
+    
+    // whitelist the value input to contain only valid characters
     // put the valid query in sanitized
+    string sanitized = regex_replace(value, filterString, ""); // no fmt string
+
 
     return sanitized;
 }
