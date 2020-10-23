@@ -129,18 +129,11 @@ static void testTautology()
 {
     string username = "Root";
     string password = "nothing' OR 'x' = 'x";
-    /*string weakCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";*/
     string weakCleanSql = genQuery(weakMitigation(username),
                                     weakMitigation(password));
 
     string strongCleanSql = genQuery(strongMitigation(username),
                                       strongMitigation(password));
-    /*string strongCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + strongMitigation(username) + 
-                        "' and passwd='" + strongMitigation(password) + "';";*/
     cout << "testTautology results: \n";
     cout << "No Mitigation:\n\t" << genQuery(username, password) << endl << endl;
     cout << "Weak Mitigation:\n\t" << weakCleanSql << endl << endl;
@@ -151,14 +144,6 @@ static void testUnion()
 {
     string username = "Root";
     string password = "nothing' UNION SELECT authenticate FROM passwordList; --";
-    /*
-    string weakCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
-    string strongCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + strongMitigation(username) + 
-                        "' and passwd='" + strongMitigation(password) + "';";*/
     string weakCleanSql = genQuery(weakMitigation(username),
                                     weakMitigation(password));
 
@@ -174,15 +159,6 @@ static void testAddStatement()
 {
     string username = "Root";
     string password = "nothing'; INSERT INTO passwordList (name, passwd) VALUES 'Bob', '1234";
-    /*
-    string weakCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
-    string strongCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + strongMitigation(username) + 
-                        "' and passwd='" + strongMitigation(password) + "';";
-    */
     string weakCleanSql = genQuery(weakMitigation(username),
                                     weakMitigation(password));
 
@@ -198,15 +174,6 @@ static void testComment()
 {
     string username = "Root' ; --";
     string password = "nothing";
-    /*
-    string weakCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + weakMitigation(username) + "' and passwd='" + weakMitigation(password) + "';";
-    string strongCleanSql = "SELECT authenticate\n" 
-                        "FROM passwordList\n" 
-                        "WHERE name='" + strongMitigation(username) + 
-                        "' and passwd='" + strongMitigation(password) + "';";
-    */
     string weakCleanSql = genQuery(weakMitigation(username),
                                     weakMitigation(password));
 
