@@ -38,7 +38,14 @@ int main()
     cin >> password; 
 
     cout << endl;
-    cout << "\t" << genQuery(username, password) << endl;
+    cout << "No Mitigation:\n\t" << genQuery(username, password) << endl << endl;
+    cout << "Weak Mitigation:\n\t" 
+        << genQuery(weakMitigation(username), weakMitigation(password)) 
+        << endl << endl;
+    cout << "Strong Mitigation:\n\t" 
+        << genQuery(weakMitigation(username), weakMitigation(password))
+        << endl << endl;
+    return 0;
 }
 
 static string genQuery(const string & username, const string & password)
@@ -68,10 +75,7 @@ static string strongMitigation(string value)
     
     // whitelist the value input to contain only valid characters
     // put the valid query in sanitized
-    string sanitized = regex_replace(value, filterString, ""); // no fmt string
-
-
-    return sanitized;
+    return regex_match(value, filterString, "") ? value : ""; // no fmt string
 }
 
 /*****************************************
