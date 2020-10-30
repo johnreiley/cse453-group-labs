@@ -136,6 +136,10 @@ void two(long number)              // 345678
         << "\nStarting address...\n"
         << "Stack: " << &search 
         << endl;
+   cout << "Long number was: " << *((long*)search) << endl;
+   long * changeNumber = (long *)search; // point to longs
+   *changeNumber = 654321; // change the variable outside of its scope!
+   cout << "Now is: " << *((long*)search) << endl;
 
 
    // change pointerFunction in main() to point to pass
