@@ -1,3 +1,14 @@
+/**********************************************************
+ * File: W07-Memory-Organization.cpp
+ *
+ * Authors: Benjamin Hansen, Justen Neeley, John Reiley,
+ *      Joseph Sanderson, Garrett Smith
+ *
+ * Description: This program displays the call-stack of
+ *      the loaded program at execution. It also demontrates
+ *      the ability to use that information to change variables
+ *      outside of the scope of main.
+ *********************************************************/
 #include <iostream>
 #include <iomanip>
 #include <string>
