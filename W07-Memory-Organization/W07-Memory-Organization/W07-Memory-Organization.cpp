@@ -120,11 +120,16 @@ void two(long number)              // 345678
 
    // change number in main() to 654321
    // Benjamin's Idea
-   char * search = &bow; // start here like assignment says
+   const char * search = (char *)&bow; // start here like assignment says
    while (*((long *)search) != 123456)
    {
        search++; // increment one byte up at a time
    }
+   cout << "\nTrying to change memory here. Found the long int!\n"
+        << "\nStarting address...\n"
+        << "Stack: " << &search 
+        << endl;
+
 
    // change pointerFunction in main() to point to pass
 
