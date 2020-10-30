@@ -154,6 +154,7 @@ void two(long number)              // 345678
  ******************************************************************************/
 void displayAddressExamples()
 {
+    cout << "\nDisplaying address examples\n";
     int funNum = 99;
 
     // Stack variables
@@ -166,4 +167,7 @@ void displayAddressExamples()
     // Code segment
     cout << "Code: " << "unsolved for now" << endl;
 
+    // don't forget to free
+    delete pHeap;
+    pHeap = NULL;
 }
