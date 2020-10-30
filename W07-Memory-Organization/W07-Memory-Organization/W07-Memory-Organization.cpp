@@ -107,11 +107,16 @@ void two(long number)              // 345678
         << "-------------------+"
         << "-------------------+"
         << "-----------------+\n";
+   
    for (long i = 24; i >= -4; i--)   // You may need to change 24 to another number
    {
       ////////////////////////////////////////////////
       // Insert code here to display the callstack
-      
+      cout << '[' << setw(2) << i << ']'
+         << setw(8) << "0x" << hex << &text
+         << setw(20) << hex << "stuff here"
+         << setw(20) << dec << "more stuff here"
+         << setw(18) << displayCharArray(text) << endl;
       //
       ////////////////////////////////////////////////
    }
