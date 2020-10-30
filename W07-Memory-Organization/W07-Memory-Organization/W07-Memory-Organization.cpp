@@ -1,3 +1,14 @@
+/**********************************************************
+ * File: W07-Memory-Organization.cpp
+ *
+ * Authors: Benjamin Hansen, Justen Neeley, John Reiley,
+ *      Joseph Sanderson, Garrett Smith
+ *
+ * Description: This program displays the call-stack of
+ *      the loaded program at execution. It also demontrates
+ *      the ability to use that information to change variables
+ *      outside of the scope of main.
+ *********************************************************/
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -10,13 +21,16 @@ void fail() { cout << "You've failed :(\n"; }
 const char * passMessage = ":)";
 const char * failMessage = ":(";
 
+// display helping funciton for validation of addresses
+void displayAddressExamples();
+
 /**********************************************
  * MAIN : The top of the callstack.
  **********************************************/
 int main()
 {
    char text[8] = "*MAIN**";
-   long number = 123456;
+   long number = 123456; // binary: 
    void (*pointerFunction)() = fail;
    const char * message = failMessage;
 
@@ -114,10 +128,51 @@ void two(long number)              // 345678
 
    // change number in main() to 654321
 
+   // just to help see stuff
+   displayAddressExamples(); // use this to check assumptions visually
+
+   // Benjamin's Idea
+   const char * search = (char *)&bow; // start here like assignment says
+   while (*((long *)search) != 123456)
+   {
+       search++; // increment one byte up at a time
+   }
+   cout << "\nTrying to change memory here. Found the long int!\n"
+        << "\nStarting address...\n"
+        << "Stack: " << &search 
+        << endl;
+
+
    // change pointerFunction in main() to point to pass
 
    // change message in main() to point to passMessage
 
    //
    ////////////////////////////////////////////////
+}
+
+/******************************************************************************
+ * displayAddressExamples
+ * Not needed, but useful for seeing what the address displays look like for
+ * stack variable, heap memory, or code segment.
+ * ANY AND ALL CAN EDIT THIS CODE AS THEY PLEASE, within reason
+ ******************************************************************************/
+void displayAddressExamples()
+{
+    cout << "\nDisplaying address examples\n";
+    int funNum = 99;
+
+    // Stack variables
+    cout << "Stack: " << &funNum << endl;
+    
+    int * pHeap = new int(5); // initialized to 5
+    // Heap address
+    cout << "Heap: " << pHeap << endl;
+
+    // Code segment
+    cout << "Code: " << "unsolved for now" << endl;
+
+    // don't forget to free
+    delete pHeap;
+    pHeap = NULL;
 }
