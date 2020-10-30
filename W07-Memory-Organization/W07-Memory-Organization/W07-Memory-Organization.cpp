@@ -27,7 +27,7 @@ const char * failMessage = ":(";
 int main()
 {
    char text[8] = "*MAIN**";
-   long number = 123456;
+   long number = 123456; // binary: 
    void (*pointerFunction)() = fail;
    const char * message = failMessage;
 
@@ -119,6 +119,12 @@ void two(long number)              // 345678
    // change text in main() to "*main**"
 
    // change number in main() to 654321
+   // Benjamin's Idea
+   char * search = &bow; // start here like assignment says
+   while (*((long *)search) != 123456)
+   {
+       search++; // increment one byte up at a time
+   }
 
    // change pointerFunction in main() to point to pass
 
