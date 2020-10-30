@@ -12,13 +12,17 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+// to disable asserts, uncomment this directive
+// this will cause the compiler to not compile asserts
+//#define NDEBUG
+#include <cassert>
 using namespace std;
 
 void one(long number);
 void two(long number);
 void pass() { cout << "You pass :)\n"; }
 void fail() { cout << "You've failed :(\n"; }
-const char * passMessage = ":)";
+const char * passMessage = ":)"; 
 const char * failMessage = ":(";
 
 // display helping funciton for validation of addresses
@@ -52,6 +56,25 @@ int main()
    cout << "\tmessage:          " << message           << endl;
    cout << "\tfunction pointer: ";
    pointerFunction();
+
+   // ensure assumptions are met
+
+   // asserting variable value changes
+   // testing change to text[8] to "*main**"
+   assert(text[0] == '*');
+   assert(text[1] == 'm');
+   assert(text[2] == 'a');
+   assert(text[3] == 'i');
+   assert(text[4] == 'n');
+   assert(text[5] == '*');
+   assert(text[6] == '*');
+   assert(text[7] == '\0'); // last should be the null character
+   // testing change to number
+   assert(number == 654321);
+   // testing change to pointerFunction
+   assert(pointerFunction == pass); // do they point to the same address
+   // testing change to message
+   assert(message == passMessage); // do they hold the same address
 
    return 0;
 }
@@ -121,15 +144,15 @@ void two(long number)              // 345678
       ////////////////////////////////////////////////
    }
 
+   // just to help see stuff
+   displayAddressExamples(); // use this to check assumptions visually
+
    ////////////////////////////////////////////////
    // Insert code here to change the variables in main()
                                                                                 
    // change text in main() to "*main**"
 
    // change number in main() to 654321
-
-   // just to help see stuff
-   displayAddressExamples(); // use this to check assumptions visually
 
    // Benjamin's Idea
    const char * search = (char *)&bow; // start here like assignment says
@@ -142,6 +165,7 @@ void two(long number)              // 345678
         << "Stack: " << &search 
         << endl;
    cout << "Long number was: " << *((long*)search) << endl;
+   // not constant so we can change the value
    long * changeNumber = (long *)search; // point to longs
    *changeNumber = 654321; // change the variable outside of its scope!
    cout << "Now is: " << *((long*)search) << endl;
