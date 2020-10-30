@@ -21,6 +21,9 @@ void fail() { cout << "You've failed :(\n"; }
 const char * passMessage = ":)";
 const char * failMessage = ":(";
 
+// display helping funciton for validation of addresses
+void displayAddressExamples();
+
 /**********************************************
  * MAIN : The top of the callstack.
  **********************************************/
@@ -119,6 +122,10 @@ void two(long number)              // 345678
    // change text in main() to "*main**"
 
    // change number in main() to 654321
+
+   // just to help see stuff
+   displayAddressExamples(); // use this to check assumptions visually
+
    // Benjamin's Idea
    const char * search = (char *)&bow; // start here like assignment says
    while (*((long *)search) != 123456)
@@ -137,4 +144,26 @@ void two(long number)              // 345678
 
    //
    ////////////////////////////////////////////////
+}
+
+/******************************************************************************
+ * displayAddressExamples
+ * Not needed, but useful for seeing what the address displays look like for
+ * stack variable, heap memory, or code segment.
+ * ANY AND ALL CAN EDIT THIS CODE AS THEY PLEASE, within reason
+ ******************************************************************************/
+void displayAddressExamples()
+{
+    int funNum = 99;
+
+    // Stack variables
+    cout << "Stack: " << &funNum << endl;
+    
+    int * pHeap = new int(5); // initialized to 5
+    // Heap address
+    cout << "Heap: " << pHeap << endl;
+
+    // Code segment
+    cout << "Code: " << "unsolved for now" << endl;
+
 }
