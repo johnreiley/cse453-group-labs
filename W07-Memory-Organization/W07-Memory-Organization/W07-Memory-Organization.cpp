@@ -197,8 +197,9 @@ void displayAddressExamples()
     // Heap address
     cout << "Heap: " << pHeap << endl;
 
+	static string addressed = "this is here";
     // Code segment
-    cout << "Code: " << "unsolved for now" << endl;
+    cout << "Code: " << &addressed<< endl;
 
     // don't forget to free
     delete pHeap;
