@@ -152,10 +152,48 @@ void two(long number)              // 345678
                                                                                 
    // change text in main() to "*main**"
 
+   // assert that our comparison will work
+   char test[8] = "*MAIN**";
+   const char * pTest = test;
+   cerr << "Testing 1 ...\n";
+   cout << string(pTest) << endl; // make sure this works well
+   cerr << "Testing 2 ...\n";
+   assert(string(pTest) == "*MAIN**"); // if false, our use of logic is wrong
+   cerr << "Preparing Search...\n";
+   
+    const char * search = (char *)&bow; // start here like assignment says
+   // probe the memory until the text in main is found
+   while (string(search) != "*MAIN**") // convert to string for efficient comparison
+   {
+       search++; // increment one byte up the stack at a time
+   }
+   cout << "\nTrying to change memory here. Found the text!\n"
+        << "\nStarting address...\n"
+        << "Stack: " << &search 
+        << endl;
+   cout << "Text was: " << string(search) << endl;
+   // not constant so we can change the value
+   // get the starting address that we want from the const pointer 
+   char * changeText = (char *)search;
+   // change text's value in main to "*main**"
+   // do it one at a time because we have a character array
+   // procedural code, line-after-line, is the most efficient in terms of speed
+   changeText[0] = '*';
+   changeText[1] = 'm';
+   changeText[2] = 'a';
+   changeText[3] = 'n';
+   changeText[4] = '*';
+   changeText[5] = '*'; // change the variable outside of its scope!
+
+   // don't access through changeText... prove we updated what search pointed to
+   cout << "Text now is: " << string(search) << endl;
+
+   // when probing downward, make sure we don't try to decrement past NULL
+
    // change number in main() to 654321
 
-   // Benjamin's Idea
-   const char * search = (char *)&bow; // start here like assignment says
+   // TODO: search from last location of search. No need to start over
+   search = (char *)&bow; // start here like assignment says
    while (*((long *)search) != 123456)
    {
        search++; // increment one byte up at a time
@@ -169,7 +207,6 @@ void two(long number)              // 345678
    long * changeNumber = (long *)search; // point to longs
    *changeNumber = 654321; // change the variable outside of its scope!
    cout << "Now is: " << *((long*)search) << endl;
-
 
    // change pointerFunction in main() to point to pass
 
@@ -197,7 +234,7 @@ void displayAddressExamples()
     // Heap address
     cout << "Heap: " << pHeap << endl;
 
-	static string addressed = "this is here";
+    static string addressed = "this is here";
     // Code segment
     cout << "Code: " << &addressed<< endl;
 
