@@ -155,15 +155,6 @@ void two(long number)              // 345678
                                                                                 
    // change text in main() to "*main**"
 
-   // assert that our comparison will work
-   char test[8] = "*MAIN**";
-   const char * pTest = test;
-   cerr << "Testing 1 ...\n";
-   cout << string(pTest) << endl; // make sure this works well
-   cerr << "Testing 2 ...\n";
-   assert(string(pTest) == "*MAIN**"); // if false, our use of logic is wrong
-   cerr << "Preparing Search...\n";
-   
     const char * search = (char *)&bow; // start here like assignment says
    // probe the memory until the text in main is found
    while (string(search) != "*MAIN**") // convert to string for efficient comparison
@@ -184,35 +175,97 @@ void two(long number)              // 345678
    changeText[0] = '*';
    changeText[1] = 'm';
    changeText[2] = 'a';
-   changeText[3] = 'n';
-   changeText[4] = '*';
-   changeText[5] = '*'; // change the variable outside of its scope!
+   changeText[3] = 'i';
+   changeText[4] = 'n';
+   changeText[5] = '*';
+   changeText[6] = '*'; // change the variable outside of its scope!
 
    // don't access through changeText... prove we updated what search pointed to
    cout << "Text now is: " << string(search) << endl;
+   assert(string(search) == "*main**");
+   search--;
+   assert(string(search) == "main**");
+   search--;
+   assert(string(search) == "ain**");
+   search--;
+   assert(string(search) == "in**");
+   search--;
+   assert(string(search) == "n**");
+   search--;
+   assert(string(search) == "**");
+   search--;
+   assert(string(search) == "*");
+   search--;
+   assert(string(search) == "\0");
+   search--;
+   assert(*((long *)search) == 123456);
+
 
    // when probing downward, make sure we don't try to decrement past NULL
 
    // change number in main() to 654321
 
-   // TODO: search from last location of search. No need to start over
-   search = (char *)&bow; // start here like assignment says
-   while (*((long *)search) != 123456)
+   // search down from last location of search (at the address for text) 
+   // no need to start over
+   // if all else fails, stop at null
+   // the long int should be 8 bytes down from the text char *, but 
+   // to have a robust solution, we must allow added local variables or
+   // less local variables in main
+   while (( search != NULL ) && ( *((long *)search) != 123456 ))
    {
-       search++; // increment one byte up at a time
+       cout << "Searching...\n";
+       search--; // increment down one byte at a time
    }
-   cout << "\nTrying to change memory here. Found the long int!\n"
+   if (search == NULL)
+   {
+       cout << "Failed search for long int";
+   }
+   else
+   {
+       cout << "\nTrying to change memory here. Found the long int!\n"
+           << "\nStarting address...\n"
+           << "Stack: " << &search 
+           << endl;
+       cout << "Long number was: " << *((long*)search) << endl;
+       // not constant so we can change the value
+       long * changeNumber = (long *)search; // point to longs
+       *changeNumber = 654321; // change the variable outside of its scope!
+       cout << "Now is: " << *((long*)search) << endl;
+   }
+
+   // change pointerFunction in main() to point to pass
+   
+   // assert assumptions
+   /*
+   void (*pFunc)() = fail;
+   const char * pFuncTest = (char *)pFunc;
+   cout << "Testing pFunc: ";
+   (*pFunc)();
+   cout << "Testing pFuncTest: ";
+   (*pFuncTest)();
+   assert(pFuncTest == fail);
+   assert(pFuncTest == pFunc);
+
+   // search down from last location of search (at the address for number) 
+   while (( search != NULL ) && ( search != fail ))
+   {
+       search--; // increment down one byte at a time
+   }
+   cout << "\nTrying to change memory here. Found the pointerFunction!\n"
         << "\nStarting address...\n"
         << "Stack: " << &search 
         << endl;
-   cout << "Long number was: " << *((long*)search) << endl;
+   cout << "pointerFunction number was: ";
+   (*search)();
+   cout << endl;
    // not constant so we can change the value
-   long * changeNumber = (long *)search; // point to longs
-   *changeNumber = 654321; // change the variable outside of its scope!
-   cout << "Now is: " << *((long*)search) << endl;
-
-   // change pointerFunction in main() to point to pass
-
+   void (*changePointerFunction) = (void *)search; // point to longs
+   changePointerFunction = pass; // change the variable outside of its scope!
+   cout << "Now is: ";
+   (*search)();
+   cout << endl;
+   */
+   
    // change message in main() to point to passMessage
 
    //
