@@ -132,12 +132,12 @@ void two(long number)              // 345678
         << "-------------------+"
         << "-----------------+\n";
 
-   // define current here
+   // TODO: define current here
    for (long i = 34; i >= -4; i--)   // You may need to change 24 to another number
    {
       ////////////////////////////////////////////////
       // Insert code here to display the callstack
-      // this should work as well: current += 8; // increment up 8 bytes
+      // TODO: this should work as well: current += 8; // increment up 8 bytes
       char* current = (char*)((char*)&bow + 8 * i);
 
       cout << '[' << setw(2) << i << ']'
