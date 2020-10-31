@@ -34,8 +34,8 @@ void displayAddressExamples();
  **********************************************/
 int main()
 {
-   char text[8] = "*MAIN**";
-   long number = 123456; // binary: 
+   char text[8] = "*MAIN**"; // hex: 0x2a4d41494e2a2a
+   long number = 123456; // hex: 0x1E240 
    void (*pointerFunction)() = fail;
    const char * message = failMessage;
 
@@ -132,10 +132,12 @@ void two(long number)              // 345678
         << "-------------------+"
         << "-----------------+\n";
 
+   // define current here
    for (long i = 34; i >= -4; i--)   // You may need to change 24 to another number
    {
       ////////////////////////////////////////////////
       // Insert code here to display the callstack
+      // this should work as well: current += 8; // increment up 8 bytes
       char* current = (char*)((char*)&bow + 8 * i);
 
       cout << '[' << setw(2) << i << ']'
@@ -182,28 +184,23 @@ void two(long number)              // 345678
 
    // don't access through changeText... prove we updated what search pointed to
    cout << "Text now is: " << string(search) << endl;
-   assert(string(search) == "*main**");
-   search--;
-   assert(string(search) == "main**");
-   search--;
-   assert(string(search) == "ain**");
-   search--;
-   assert(string(search) == "in**");
-   search--;
-   assert(string(search) == "n**");
-   search--;
-   assert(string(search) == "**");
-   search--;
-   assert(string(search) == "*");
-   search--;
-   assert(string(search) == "\0");
-   search--;
-   assert(*((long *)search) == 123456);
-
+   search -= 8; // decrement down 8 bytes
+   cout << "What is this: " << *((long *)search) << endl;
+   // we should be at the beginning of the long int in main
+   // but we're not.............
 
    // when probing downward, make sure we don't try to decrement past NULL
 
    // change number in main() to 654321
+   
+   // do it the sure-fire way
+   search = (char *)&bow;
+   while (*((long *)search) != 123456)
+   {
+       cout << "Searching up from bow...\n";
+       search++; // increment down one byte at a time
+   }
+   assert(*((long *)search) == 123456);
 
    // search down from last location of search (at the address for text) 
    // no need to start over
@@ -211,9 +208,10 @@ void two(long number)              // 345678
    // the long int should be 8 bytes down from the text char *, but 
    // to have a robust solution, we must allow added local variables or
    // less local variables in main
+   // Garrett: since the previous search succeeded, THIS LOOP WON'T RUN
    while (( search != NULL ) && ( *((long *)search) != 123456 ))
    {
-       cout << "Searching...\n";
+       cout << "Searching down...\n";
        search--; // increment down one byte at a time
    }
    if (search == NULL)
@@ -222,6 +220,7 @@ void two(long number)              // 345678
    }
    else
    {
+       // we can still change number here
        cout << "\nTrying to change memory here. Found the long int!\n"
            << "\nStarting address...\n"
            << "Stack: " << &search 
@@ -235,6 +234,9 @@ void two(long number)              // 345678
 
    // change pointerFunction in main() to point to pass
    
+   // so far I can't get this logic to compile
+   // start the search upward (increment search) instead of downward
+   // start the search at (char *)&bow;
    // assert assumptions
    /*
    void (*pFunc)() = fail;
