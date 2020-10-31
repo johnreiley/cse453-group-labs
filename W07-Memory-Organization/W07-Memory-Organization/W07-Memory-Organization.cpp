@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <sstream>
 // to disable asserts, uncomment this directive
 // this will cause the compiler to not compile asserts
 //#define NDEBUG
@@ -130,16 +131,18 @@ void two(long number)              // 345678
         << "-------------------+"
         << "-------------------+"
         << "-----------------+\n";
-   
-   for (long i = 24; i >= -4; i--)   // You may need to change 24 to another number
+
+   for (long i = 34; i >= -4; i--)   // You may need to change 24 to another number
    {
       ////////////////////////////////////////////////
       // Insert code here to display the callstack
+      char* current = (char*)((char*)&bow + 8 * i);
+
       cout << '[' << setw(2) << i << ']'
-         << setw(8) << "0x" << hex << &text
-         << setw(20) << hex << "stuff here"
-         << setw(20) << dec << "more stuff here"
-         << setw(18) << displayCharArray(text) << endl;
+         << setw(15) << (void*)current
+         << setw(20) << std::hex << std::showbase << *(long*)current
+         << setw(20) << std::dec << *(long*)current
+         << setw(18) << displayCharArray(current) << endl;
       //
       ////////////////////////////////////////////////
    }
