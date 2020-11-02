@@ -42,6 +42,9 @@ int main()
 {
    char text[8] = "*MAIN**"; // hex: 0x2a4d41494e2a2a
    long number = 123456; // hex: 0x1E240 
+   // robustness test
+   // testing adding local variable doesn't change solution
+   long long stillWorks = 1234591823;
    void (*pointerFunction)() = fail;
    const char * message = failMessage;
 
@@ -170,6 +173,7 @@ void two(long number)              // 345678
    {
       search++; // increment one byte up the stack at a time
    }
+   assert(string(search) == "*MAIN**");
    cout << "\nTrying to change memory here. Found the text!\n"
       << "\nStarting address...\n"
       << "Stack: " << (void *)search 
@@ -192,55 +196,29 @@ void two(long number)              // 345678
    // don't access through changeText... 
    // prove we updated what search pointed to
    cout << "Text now is: " << string(search) << endl;
-   search -= 8; // decrement down 8 bytes
-   cout << "What is this: " << *((long *)search) << endl;
-
-   cout << "\n\nWHAT'S THE DIFFERENCE!!!\n"  
-      << "main: " << main << endl << "&main: " << &main << endl << endl;
-   // we should be at the beginning of the long int in main
-   // but we're not.............
-
-   // when probing downward, make sure we don't try to decrement past NULL
 
    // change number in main() to 654321
 
    // do it the sure-fire way
-   search = (char *)&bow;
-   while (*((long *)search) != 123456)
+   pLong = (long *)&bow;
+   while (*pLong != 123456)
    {
-      search++; // increment down one byte at a time
+      pLong++; // increment up 8 bytes at a time
    }
-   assert(*((long *)search) == 123456);
+   assert(*pLong == 123456);
 
-   // search down from last location of search (at the address for text) 
-   // no need to start over
-   // if all else fails, stop at null
-   // the long int should be 8 bytes down from the text char *, but 
    // to have a robust solution, we must allow added local variables or
-   // less local variables in main
-   // Garrett: since the previous search succeeded, THIS LOOP WON'T RUN
-   while (( search != NULL ) && ( *((long *)search) != 123456 ))
-   {
-      cout << "Searching down...\n";
-      search--; // increment down one byte at a time
-   }
-   if (search == NULL)
-   {
-      cout << "Failed search for long int";
-   }
-   else
-   {
-      // we can still change number here
-      cout << "\nTrying to change memory here. Found the long int!\n"
-         << "\nStarting address...\n"
-         << "Stack: " << search 
-         << endl;
-      cout << "Long number was: " << *((long*)search) << endl;
-      // not constant so we can change the value
-      long * changeNumber = (long *)search; // point to longs
-      *changeNumber = 654321; // change the variable outside of its scope!
-      cout << "Now is: " << *((long*)search) << endl;
-   }
+   // less local variables in main. Thus, always searching from this scope
+   // up is more robust.
+   // we can still change number here
+   cout << "\nTrying to change memory here. Found the long int!\n"
+      << "\nStarting address...\n"
+      << "Stack: " << pLong
+      << endl;
+   cout << "Long number was: " << *pLong << endl;
+   // not constant so we can change the value
+   *pLong = 654321; // change the variable outside of its scope!
+   cout << "Now is: " << *pLong << endl;
 
 
    // change pointerFunction in main() to point to pass
@@ -250,55 +228,37 @@ void two(long number)              // 345678
    // start the search at
    // assert assumptions
 
-   void (*pFunc)() = fail;
-   const char * pFuncTest = (char *)pFunc;
-   cerr << "Fail is: " << fail << endl;
-   cout << "Testing pFunc: ";
-   (*pFunc)();
-   cout << "Testing pFuncTest: ";
-   // cast it to a void pointer so the compiler will recognize
-   // we're defining a function pointer
-   assert((void *)pFuncTest == fail);
-   assert((void *)pFuncTest == pFunc);
+   pLong = (long *)&bow;
 
-   // search down from last location of search (at the address for number) 
    // do it the sure-fire way
-   search = (char *)&bow;
-   cout << "Char pointer dereference! " << *(long *)search << endl;
-   long failAddress = (long)fail;
-   while (*(long*)search != failAddress)
+   while (*pLong != (long)fail)
    {
-      search++; // increment up one byte at a time
+      pLong++; // increment up 8 bytes at a time
    }
-   assert((long)fail == *(long *)search);
+   assert(*pLong == (long)fail);
    cout << "\nTrying to change memory here. Found the pointerFunction!\n"
       << "\nStarting address...\n"
-      << "Stack: " << (void *)search
-      << "\nBefore: " << *(long *)search;
+      << "Stack: " << pLong 
+      << "\nWas: " << *pLong << endl;
+   // set the 8 bytes pointed to by pLong to the pass address, as a long
+   *pLong = (long)pass; 
+   cout << "Now is: " << *pLong << endl;
+   
    // change message in main() to point to passMessage
-   search = (char *)&bow;
-   char ** messageSearch = (char **)&bow;
-   while (string(*messageSearch) != string(failMessage))
+   pLong = (long *)&bow;
+   while (*pLong != (long)failMessage)
    {
-      cout << "Searching up ...\n";
-      messageSearch++; // increment down one byte at a time
+      pLong++; // increment up 8 bytes at a time
    }
    cout << "\nTrying to change memory here. Found the message!\n"
       << "\nStarting address...\n"
-      << "Stack: " << (void *)search 
+      << "Stack: " << pLong
       << endl;
-   cout << "Message was: " << string(search) << endl;
-   // not constant so we can change the value
-   // set the changeMessage pointer to point to the message pointer in main
-   // accessed by search
-   const char ** changeMessage = (const char **)search; // point to longs
-   *changeMessage = passMessage; // change the variable outside of its scope!
-   cout << "Now is: " << string(search) << endl;
-   assert(string(*changeMessage) == ":)");
-   assert(string(search) == ":)");
-   assert(string(failMessage) == ":(");
-   assert(string(failMessage) != string(search));
-   assert(string(failMessage) != string(*changeMessage));
+   cout << "Message was: " << string((char *)*pLong) << endl;
+   // set the memory location's value pLong points to the long address of 
+   // passMessage
+   *pLong = (long)passMessage; // change the variable outside of its scope!
+   cout << "Now is: " << string((char *)*pLong) << endl << endl;
    //
    ////////////////////////////////////////////////
 }
