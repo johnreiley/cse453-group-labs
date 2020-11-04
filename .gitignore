@@ -2,3 +2,8 @@
 Debug
 Release
 .vscode
+
+*.pdb
+*.ilk
+*.obj
+*.exe
