@@ -1,5 +1,33 @@
 // Benjamin's Arc Injection Idea
+#include <iostream>
+#include <fstream>
+#ifdef _WIN32 
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+#include <cassert>
+using namespace std;
 
+/***********************************************************
+ * SAVED
+ * Display success message for saving the private key to 
+ * special-key.txt
+ ***********************************************************/
+void saved()
+{
+   cout << "Favorite Numbers have been saved at favorite-nums.txt\n";
+}
+
+/***********************************************************
+ * FAILED SAVE
+ * Display fail message for saving the private key to 
+ * special-key.txt
+ ***********************************************************/
+void failedSave()
+{
+   cout << "Error: Favorite Numbers have failed saving to favorite-nums.txt\n";
+}
 /***********************************************************
  * ARC INJECTION VULNERABILITY
  * From (Helfrich, "Security for Software Engineers", 2019)
@@ -14,34 +42,56 @@
  * Stack Overflow post:
  * https://stackoverflow.com/questions/3811328/try-to-write-char-to-a-text-file
  **********************************************************/
-void arcVulnerability(const string & key)
+void arcVulnerability(const long favoriteNums[], long int length)
 {
    // load the 128-byte key into a char buffer
-   char buffer[128];
+   long buffer[8]; // limit 8 longs
    void (* endMessage)() = saved;
 
-   // write the characters to buffer
-   for (int i = 0; i <= 128; ++i)
+   cout << "&length: " << &length << endl
+      << "buffer: " << (void *)buffer << endl 
+      << "endMessage: " << &endMessage << endl;
+   // for some reason, length is allocated after
+   // buffer and endMessage on the stack
+   assert(buffer > (long *)&endMessage && (long *)&endMessage);
+
+   // write the longs to our buffer
+   for (--length; length >= 0; --length)
    {
-      buffer[i] = key[i];
+      cout << "Rolling out " << favoriteNums[length] << endl;
+      buffer[length] = favoriteNums[length];
+      cout << "Buffer: " << buffer[length] << endl;
    }
 
-   // write the key to a character text file
-   ofstream ofs; // solely for outputting to the file
-   ofs.open("special-key.txt", ios::text);
+   cout << "Buffer[9]: " << buffer[9] << endl;
+
+   //assert((long)endMessage == (long)failedSave);
+
+   // the work
+   cout << "Now Writing Favorite Nums to File\n";
+
+   ofstream ofs;
+   ofs.open("favorite-nums.txt", ios::out);
+
    // check for failures
-   if(ofs.fail())
+   if (ofs.fail())
    {
-      endMessage = failedSave;
+      // update endMessage to reflect failure
+      endMessage = failedSave; 
    }
-   else
+   else // we're good to write
    {
-      ofs.write(buffer, 128);
-      ofs.close(); // close the file stream
+      for(int i = 0; i < 8; ++i)
+      {
+         ofs << buffer[i] << endl;
+      }
+      ofs.close(); // close the file
    }
 
-   // display end message
+   // display the end message
    (*endMessage)();
+
+   cout << endl;
 
    return;
 }
@@ -57,8 +107,17 @@ void arcVulnerability(const string & key)
  **********************************************************/
 void arcExploit()
 {
-   string key = "cUWt+]}IBr/b~d ;~b&yW<C|<f Klu%3d[WUZ;P*E<lr=~mxJnIP}bf#a#<+.kZN.[}RT_<8vp>B*] ;.5Kn~p+e$NFZVN+j9sL&8(P:pZ/nH|MW/ECr.?sz@fIKJ$`.";
-   arcVulnerability(key);
+   // create a 128 character-string
+   /*
+   string key = "cUWt+]}IBr/b~d ;~b&yW<C|<f Klu%3d[WUZ;P*E<";
+   key += "lr=~mxJnIP}bf#a#<+.kZN.[}RT_<8vp>B*] ;.5Kn~p+e$NF";
+   key += "ZVN+j9sL&8(P:pZ/nH|MW/ECr.?sz@fIKJ$`.";
+   */
+   long numbers[9] = {
+      123, 321, 432, 543, 654, 
+      765, 876, 9999, (long)failedSave
+   };
+   arcVulnerability(numbers, 9 /*length*/);
    return;
 }
 
@@ -68,7 +127,18 @@ void arcExploit()
  **********************************************************/
 void arcWorking()
 {
-   string key = "cUWt+]}IBr/b~d ;~b&yW<C|<f Klu%3d[WUZ;P*E<lr=~mxJnIP}bf#a#<+.kZN.[}RT_<8vp>B*] ;.5Kn~p+e$NFZVN+j9sL&8(P:pZ/nH|MW/ECr.?sz@fIKJ$`.";
-   arcVulnerability(key);
+   long numbers[8] = {
+      123, 321, 432, 543, 654, 
+      765, 876, 9999
+   };
+   arcVulnerability(numbers, 8 /*length*/);
    return;
 }
+
+int main()
+{
+   arcWorking();
+   arcExploit();
+   return 0;
+}
+
