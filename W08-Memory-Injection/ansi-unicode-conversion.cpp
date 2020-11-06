@@ -7,7 +7,7 @@
  * Summary:
  *    Write code demonstrating an ANSI-Unicode conversion vulnerability.
  *    Estimated: 1 hrs
- *    Actual: 0 hrs
+ *    Actual: 1.5 hrs
  * <problems ran into...>
  ************************************************************************/
 #include <iostream>
@@ -50,6 +50,7 @@ void ansiVulnerability(char phrase[64])
   cout << "\nimportantNums after: ";
   for (int i = 0; i < 15; i++)
     cout << importantNums[i] << " ";
+  cout << endl;
 }
 
 /**************************************
@@ -59,6 +60,9 @@ void ansiVulnerability(char phrase[64])
  *************************************/
 void ansiWorking()
 {
+  cout << "\n/**************************\n"
+       << "*ansiWorking()\n"
+       << "**************************/";
   // simulate user input
   char phrase[15] = "Hello world!";
 
@@ -74,6 +78,9 @@ void ansiWorking()
  *************************************/
 void ansiExploit()
 {
+  cout << "\n/**************************\n"
+       << "*ansiExploit()\n"
+       << "**************************/";
   // simulate user input
   char phrase[64] = "101010101010101010101010101010101010101010101010101010101010";
 
