@@ -7,3 +7,5 @@ Release
 *.ilk
 *.obj
 *.exe
+/W11-PasswordStrength/W11-PasswordStrength
+/W11-PasswordStrength
