@@ -7,8 +7,7 @@
  *    the exact behavior defined by Bell-LaPadula to assure
  *    their proofs validate the security of this system.
  *********************************************************************/
-#ifndef UNIT_TESTS_H
-#define UNIT_TESTS_H
+#pragma once 
 
 #include <iostream>
 #include <cassert>
@@ -19,5 +18,3 @@
 using namespace std;
 
 void runUnitTests();
-
-#endif // UNIT_TESTS_H

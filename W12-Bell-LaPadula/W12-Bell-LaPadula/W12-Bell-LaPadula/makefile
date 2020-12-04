@@ -11,8 +11,8 @@ LFLAGS = -lglut -lGLU -lGL
 ###############################################################
 # Build the main game
 ###############################################################
-a.out: lab12.o interact.o messages.o message.o unit-tests.o
-	g++ lab12.o interact.o messages.o message.o unit-tests.o $(LFLAGS)
+a.out: lab12.o interact.o messages.o message.o unit-tests.o control.o
+	g++ lab12.o interact.o messages.o message.o unit-tests.o control.o $(LFLAGS)
 
 lab12.o: lab12.cpp interact.h messages.h message.h control.h unit-tests.h
 	g++ -c lab12.cpp
