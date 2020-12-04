@@ -2,11 +2,44 @@
  * COMPONENT:
  *    CONTROL
  * Author:
- *    Br. Helfrich, <your name here if you made a change>
+ *    Br. Helfrich, John Reiley
  * Summary:
  *    This class stores the notion of Bell-LaPadula
  ************************************************************************/
 
 #pragma once
 
- // you may need to put something here...
+
+// C - classification of security levels
+enum Control {
+   PUBLIC, 
+   CONFIDENTIAL, 
+   PRIVILEDGED, 
+   SECRET
+};
+
+
+// R - request for access to an object
+/**************************************
+* Determines whether or not the user
+* has read access to a given asset
+* according to Bell-LaPadula
+**************************************/
+bool securityControlRead(Control assetControl, Control subjectControl) // A - access attributes
+{
+   // D - decision or result of the request
+   return subjectControl >= assetControl;
+}
+
+
+// R - request for access to an object
+/**************************************
+* Determines whether or not the user
+* has write access to a given asset,
+* according to Bell-LaPadula
+**************************************/
+bool securityControlWrite(Control assetControl, Control subjectControl) // A - access attributes
+{
+   // D - decision or result of the request
+   return subjectControl <= assetControl;
+}
