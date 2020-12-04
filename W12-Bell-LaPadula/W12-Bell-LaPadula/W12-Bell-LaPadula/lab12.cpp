@@ -1,7 +1,7 @@
 /***********************************************************************
 * Program:
 *    Lab 12, Bell-LaPadula
-*    Brother Helfrich, CS470
+*    Brother Wilson, CSE453
 * Author:
 *    Benjamin Hansen, John Reiley, Garret Smith,
 *    Joseph Sanderson, Justen Neeley
@@ -16,7 +16,7 @@
 #include <cassert>      // because I am paraniod
 #include "interact.h"   // the interaction code
 #include "messages.h"   // the collectio of messages
-#include "unit-tests.h" // the unit tests
+#include "unit-tests.h" // the unit tests to help prove our code
 using namespace std;
 
 const char* FILE_NAME = "messages.txt";
