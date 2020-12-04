@@ -17,6 +17,9 @@ a.out: lab12.o interact.o messages.o message.o unit-tests.o
 lab12.o: lab12.cpp interact.h messages.h message.h control.h unit-tests.h
 	g++ -c lab12.cpp
 
+control.o: control.h control.cpp
+	g++ -c control.cpp
+
 interact.o: interact.h messages.h control.h interact.cpp
 	g++ -c interact.cpp
 
