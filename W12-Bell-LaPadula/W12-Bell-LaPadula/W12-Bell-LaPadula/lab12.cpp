@@ -120,5 +120,8 @@ int main()
       done = (selection == 'y' || selection == 'Y') ? false : true;
    } while (!done);
 
+   // comment out when ready to submit program
+   runUnitTests(); // if all tests pass, we're in good shape
+
    return 0;
 }

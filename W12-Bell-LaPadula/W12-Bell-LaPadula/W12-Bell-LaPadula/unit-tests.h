@@ -16,6 +16,7 @@
 #include "interact.h"
 #include "messages.h"
 #include "message.h"
+using namespace std;
 
 void runUnitTests();
 

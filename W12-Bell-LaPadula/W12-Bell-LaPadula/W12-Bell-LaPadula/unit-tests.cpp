@@ -12,4 +12,5 @@
 void runUnitTests()
 {
     // testing ...
+    cout << "Unit Test: No tests created yet\n";
 }
