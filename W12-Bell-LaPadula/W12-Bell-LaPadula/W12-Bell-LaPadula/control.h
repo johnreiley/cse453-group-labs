@@ -8,10 +8,6 @@
  ************************************************************************/
 
 #pragma once
-// #pragma once won't work for Benjamin's compiler (on Linux) ... sorry.
-//#ifndef CONTROL_H
-//#define CONTROL_H
-
 
 // C - classification of security levels
 enum Control {
@@ -38,5 +34,3 @@ bool securityControlRead(Control assetControl, Control subjectControl); // A - a
 * according to Bell-LaPadula
 **************************************/
 bool securityControlWrite(Control assetControl, Control subjectControl); // A - access attributes
-
-//#endif // CONTROL_H
