@@ -11,11 +11,12 @@
 *    and withhold messages from those lacking the authority.
 ************************************************************************/
 
-#include <iostream>   // standard input and output
-#include <string>     // for convenience
-#include <cassert>    // because I am paraniod
-#include "interact.h" // the interaction code
-#include "messages.h" // the collectio of messages
+#include <iostream>     // standard input and output
+#include <string>       // for convenience
+#include <cassert>      // because I am paraniod
+#include "interact.h"   // the interaction code
+#include "messages.h"   // the collectio of messages
+#include "unit-tests.h" // the unit tests
 using namespace std;
 
 const char* FILE_NAME = "messages.txt";

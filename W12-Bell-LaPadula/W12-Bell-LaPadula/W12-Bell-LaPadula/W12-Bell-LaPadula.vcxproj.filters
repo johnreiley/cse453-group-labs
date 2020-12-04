@@ -27,6 +27,9 @@
     <ClCompile Include="interact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="unit-tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="messages.h">
@@ -39,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="control.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="unit-tests.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
