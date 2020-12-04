@@ -31,7 +31,7 @@ void runUnitTests()
     assert(securityControlRead(Control::PUBLIC, confidant));
 
     Control privy = Control::PRIVILEDGED;
-    // privy shouldn't be able to read anything higher than confidential
+    // privy shouldn't be able to read anything higher than priviledged 
     assert(!securityControlRead(Control::SECRET, privy));
     // privy should be able to read anything confidential or lower
     assert(securityControlRead(Control::PUBLIC, privy));
@@ -45,4 +45,34 @@ void runUnitTests()
     assert(securityControlRead(Control::PRIVILEDGED, seek));
     assert(securityControlRead(Control::SECRET, seek));
     cout << NAME << ": Passed securityControlRead tests\n";
+    
+    cout << endl << NAME << ": Testing securityControlWrite\n";
+    // general public should be able to write to any asset
+    assert(securityControlWrite(Control::PUBLIC, general));
+    assert(securityControlWrite(Control::CONFIDENTIAL, general));
+    assert(securityControlWrite(Control::PRIVILEDGED, general));
+    assert(securityControlWrite(Control::SECRET, general));
+
+    // confidant should be able to write to anything confidential or higher
+    assert(securityControlWrite(Control::PRIVILEDGED, confidant));
+    assert(securityControlWrite(Control::SECRET, confidant));
+    assert(securityControlWrite(Control::CONFIDENTIAL, confidant));
+    // confidant shouldn't be able to write to anything lower than confidential
+    assert(!securityControlWrite(Control::PUBLIC, confidant));
+
+    // privy shouldn't be able to write to anything lower than priviledged
+    assert(!securityControlWrite(Control::PUBLIC, privy));
+    assert(!securityControlWrite(Control::CONFIDENTIAL, privy));
+    // privy should be able to write anything priviledged or higher
+    assert(securityControlWrite(Control::PRIVILEDGED, privy));
+    assert(securityControlWrite(Control::SECRET, privy));
+    
+    // seek shouldn't be able to write anything except secret
+    assert(!securityControlWrite(Control::PUBLIC, seek));
+    assert(!securityControlWrite(Control::CONFIDENTIAL, seek));
+    assert(!securityControlWrite(Control::PRIVILEDGED, seek));
+    // seek should be able to write secret assets 
+    assert(securityControlWrite(Control::SECRET, seek));
+    cout << NAME << ": Passed securityControlWrite tests\n";
 }
+
