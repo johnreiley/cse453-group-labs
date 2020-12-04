@@ -7,20 +7,7 @@
  *    This class stores the notion of Bell-LaPadula
  ************************************************************************/
 
-#pragma once
-// #pragma once won't work for Benjamin's compiler (on Linux) ... sorry.
-//#ifndef CONTROL_H
-//#define CONTROL_H
-
-
-// C - classification of security levels
-enum Control {
-   PUBLIC, 
-   CONFIDENTIAL, 
-   PRIVILEDGED, 
-   SECRET
-};
-
+#include "control.h" // the header file 
 
 // R - request for access to an object
 /**************************************
@@ -28,7 +15,11 @@ enum Control {
 * has read access to a given asset
 * according to Bell-LaPadula
 **************************************/
-bool securityControlRead(Control assetControl, Control subjectControl); // A - access attributes
+bool securityControlRead(Control assetControl, Control subjectControl) // A - access attributes
+{
+   // D - decision or result of the request
+   return subjectControl >= assetControl;
+}
 
 
 // R - request for access to an object
@@ -37,6 +28,8 @@ bool securityControlRead(Control assetControl, Control subjectControl); // A - a
 * has write access to a given asset,
 * according to Bell-LaPadula
 **************************************/
-bool securityControlWrite(Control assetControl, Control subjectControl); // A - access attributes
-
-//#endif // CONTROL_H
+bool securityControlWrite(Control assetControl, Control subjectControl) // A - access attributes
+{
+   // D - decision or result of the request
+   return subjectControl <= assetControl;
+}
