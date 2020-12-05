@@ -24,10 +24,7 @@ enum Control {
 * has read access to a given asset
 * according to Bell-LaPadula
 **************************************/
-bool securityControlRead(Control assetControl, Control subjectControl)
-{ 
-        return subjectControl >= assetControl; 
-}  
+bool securityControlRead(Control assetControl, Control subjectControl);
 
 // R - request for access to an object
 /**************************************
@@ -35,7 +32,6 @@ bool securityControlRead(Control assetControl, Control subjectControl)
 * has write access to a given asset,
 * according to Bell-LaPadula
 **************************************/
-bool securityControlWrite(Control assetControl, Control subjectControl)
-{ 
-        return subjectControl <= assetControl; 
-} 
+bool securityControlWrite(Control assetControl, Control subjectControl);
+
+Control convertToEnum(string textControl);

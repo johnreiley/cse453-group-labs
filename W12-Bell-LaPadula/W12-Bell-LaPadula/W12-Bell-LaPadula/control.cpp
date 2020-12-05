@@ -33,3 +33,7 @@ bool securityControlWrite(Control assetControl, Control subjectControl) // A - a
    // D - decision or result of the request
    return subjectControl <= assetControl;
 }
+Control convertToEnum(string textControl)
+{
+	Return PUBLIC;
+}
