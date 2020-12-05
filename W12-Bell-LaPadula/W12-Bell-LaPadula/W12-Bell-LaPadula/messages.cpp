@@ -19,15 +19,31 @@
 using namespace std;
 
 /***********************************************
+ * MESSAGES :: GET MESSAGE CONTROL
+ * returns control value of message by id
+ **********************************************/
+Control Messages::getMessageControl(int id)
+{
+   for (list <Message> ::iterator it = messages.begin();
+      it != messages.end();
+      ++it)
+      if (it->getID() == id)
+         it->getControl();
+}
+
+/***********************************************
  * MESSAGES :: DISPLAY
  * display the list of messages
  ***********************************************/
-void Messages::display() const
+void Messages::display(Control userControl) const
 {
    for (list <Message> ::const_iterator it = messages.begin();
       it != messages.end();
       ++it)
-      it->displayProperties();
+   {
+      if (securityControlRead(it->getControl(), userControl))
+         it->displayProperties();
+   }
 }
 
 /***********************************************
@@ -82,6 +98,19 @@ void Messages::add(const string& text,
 }
 
 /***********************************************
+ * MESSAGES :: ADD
+ * add a new message
+ **********************************************/
+void Messages::add(Control control,
+   const string& text,
+   const string& author,
+   const string& date)
+{
+   Message message(control, text, author, date);
+   messages.push_back(message);
+}
+
+/***********************************************
  * MESSAGES :: READ MESSAGES
  * read the messages from a file
  ***********************************************/
@@ -112,7 +141,7 @@ void Messages::readMessages(const char* fileName)
       if (!fin.fail())
       {
          Message message(text, author, date);
-		 message.addControl(convertToEnum(textControl));
+         message.addControl(convertToEnum(textControl));
          messages.push_back(message);
       }
    }

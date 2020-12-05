@@ -28,8 +28,16 @@ public:
       const std::string& author,
       const std::string& date);
 
+   Message(Control control,
+      const std::string& text,
+      const std::string& author,
+      const std::string& date);
+
    // determine the unique ID of this message
    int getID() const { return id; }
+
+   // determine the control level of the message
+   Control getControl() const { return control; }
 
    // display the properties but not content of the message
    void displayProperties() const;
@@ -42,6 +50,7 @@ public:
 
    // clear out a message
    void clear();
+
    // add a control level to the message. 
    void addControl(Control newControl);
 

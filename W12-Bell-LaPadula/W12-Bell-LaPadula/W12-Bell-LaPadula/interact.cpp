@@ -51,7 +51,15 @@ Interact::Interact(const string& userName,
  ****************************************************/
 void Interact::show() const
 {
-   pMessages->show(promptForId("display"));
+   Control userControl = users[idFromUser(userName)].userControl;
+
+   int messageId = promptForId("display");
+   Control messageControl = pMessages->getMessageControl(messageId);
+
+   if (securityControlRead(messageControl, userControl))
+   {
+   pMessages->show(messageId);
+   }
 }
 
 /****************************************************
@@ -60,7 +68,8 @@ void Interact::show() const
  ***************************************************/
 void Interact::display() const
 {
-   pMessages->display();
+   Control userControl = users[idFromUser(userName)].userControl;
+   pMessages->display(userControl);
 }
 
 /****************************************************
@@ -69,7 +78,9 @@ void Interact::display() const
  ****************************************************/
 void Interact::add()
 {
-   pMessages->add(promptForLine("message"),
+   int id = idFromUser(userName);
+   pMessages-> add(users[id].userControl,
+      promptForLine("message"),
       userName,
       promptForLine("date"));
 }
@@ -80,9 +91,20 @@ void Interact::add()
  ****************************************************/
 void Interact::update()
 {
-   int id = promptForId("update");
-   pMessages->update(id,
+   Control userControl = users[idFromUser(userName)].userControl;
+
+   int messageId = promptForId("update");
+   Control messageControl = pMessages->getMessageControl(messageId);
+
+   if (securityControlWrite(messageControl, userControl))
+   {
+      pMessages->update(messageId,
       promptForLine("message"));
+   }
+   else
+   {
+      cout << "You do not have access to update this asset." << endl;
+   } 
 }
 
 /****************************************************
@@ -91,7 +113,19 @@ void Interact::update()
  ***************************************************/
 void Interact::remove()
 {
-   pMessages->remove(promptForId("delete"));
+   Control userControl = users[idFromUser(userName)].userControl;
+
+   int messageId = promptForId("delete");
+   Control messageControl = pMessages->getMessageControl(messageId);
+
+   if (securityControlWrite(messageControl, userControl))
+   {
+      pMessages->remove(messageId);
+   }
+   else
+   {
+      cout << "You do not have access to remove this asset." << endl;
+   }
 }
 
 /****************************************************

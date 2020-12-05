@@ -24,8 +24,11 @@ public:
    // constructor: read a file to fill the messages
    Messages(const char* fileName) { readMessages(fileName); }
 
+   // get message control value
+   Control Messages::getMessageControl(int id);
+
    // display the list of messages
-   void display() const;
+   void display(Control userControl) const;
 
    // show a single message
    void show(int id) const;
@@ -41,6 +44,12 @@ public:
    void add(const std::string& text,
       const std::string& author,
       const std::string& date);
+
+    // add a new message
+   void Messages::add(Control control,
+   const string& text,
+   const string& author,
+   const string& date);
 
 private:
    // the list of messages
