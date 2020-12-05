@@ -2,7 +2,8 @@
  * COMPONENT:
  *    INTERACT
  * Author:
- *    Br. Helfrich, <your name here if you made a change>
+ *    Br. Helfrich, Benjamin Hansen (added friends to class) 
+ *    <your name here if you made a change>
  * Summary:
  *    This class allows one user to interact with the system
  ************************************************************************/
@@ -30,6 +31,15 @@ struct User
  ***************************************************/
 class Interact
 {
+    /*************************************************
+     * make runUnitTests() in unit-tests.h a friend
+     * of interact so it can access and test Interact's 
+     * member variable usage
+     * to create a fool-proof unit test, we can't test
+     * functionality using other functions, we need 
+     * direct access to the data
+     *************************************************/
+    friend void runUnitTests(); // define in unit-tests.h
 public:
    Interact(const std::string& userName,
       const std::string& password,
