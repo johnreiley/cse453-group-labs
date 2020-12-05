@@ -13,7 +13,7 @@
 enum Control {
    PUBLIC, 
    CONFIDENTIAL, 
-   PRIVILEDGED, 
+   PRIVILEGED, 
    SECRET
 };
 

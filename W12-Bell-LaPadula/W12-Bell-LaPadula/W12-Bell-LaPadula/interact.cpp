@@ -23,11 +23,11 @@ using namespace std;
  *************************************************************/
 const User users[] =
 {
-   { "AdmiralAbe",     "password" },
-   { "CaptainCharlie", "password" },
-   { "SeamanSam",      "password" },
-   { "SeamanSue",      "password" },
-   { "SeamanSly",      "password" }
+   { "AdmiralAbe",     "password", SECRET },
+   { "CaptainCharlie", "password", PRIVILEGED },
+   { "SeamanSam",      "password", CONFIDENTIAL },
+   { "SeamanSue",      "password", CONFIDENTIAL },
+   { "SeamanSly",      "password", CONFIDENTIAL }
 };
 
 const int ID_INVALID = -1;
@@ -133,13 +133,14 @@ int Interact::promptForId(const char* verb) const
  * INTERACT :: AUTHENTICATION
  * authenticate the user: find their control level
  ****************************************************/
-void Interact::authenticate(const string& userName,
+Control Interact::authenticate(const string& userName,
    const string& password) const
 {
    int id = idFromUser(userName);
-   bool authenticated = false;
    if (ID_INVALID != id && password == string(users[id].password))
-      authenticated = true;
+	   return users[id].userControl;
+   else
+	   return PUBLIC;
 }
 
 /****************************************************
