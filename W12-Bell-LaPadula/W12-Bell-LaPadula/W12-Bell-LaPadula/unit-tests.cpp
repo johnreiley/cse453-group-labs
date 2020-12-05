@@ -11,6 +11,17 @@
 #include "control.h"
 #define NAME "Unit Test"
 
+/***********************************************************
+ * Run Unit Tests
+ * Run the tests that will support our claim
+ * that our program behaves in the 
+ * exact contraints defined by Bell-LaPadula
+ * for a secure system. These tests support
+ * our claim that for every possible appearance 
+ * (as Bell-LaPadula defines), every appearance of a subject
+ * or use of the system is
+ * secure and that no compromise possibilities exist.
+ ************************************************************/
 void runUnitTests()
 {
     cout << endl << NAME << ": Testing securityControlRead\n";
