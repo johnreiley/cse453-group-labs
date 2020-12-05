@@ -8,7 +8,8 @@
  ************************************************************************/
 
 #pragma once
-
+#include "string"
+#include "map"
 // C - classification of security levels
 enum Control {
    PUBLIC, 
@@ -34,4 +35,4 @@ bool securityControlRead(Control assetControl, Control subjectControl);
 **************************************/
 bool securityControlWrite(Control assetControl, Control subjectControl);
 
-Control convertToEnum(string textControl);
+Control convertToEnum(std::string textControl);

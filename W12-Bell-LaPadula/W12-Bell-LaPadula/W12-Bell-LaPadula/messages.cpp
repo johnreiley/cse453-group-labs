@@ -112,6 +112,7 @@ void Messages::readMessages(const char* fileName)
       if (!fin.fail())
       {
          Message message(text, author, date);
+		 message.addControl(convertToEnum(textControl));
          messages.push_back(message);
       }
    }

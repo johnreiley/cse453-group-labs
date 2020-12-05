@@ -42,6 +42,8 @@ public:
 
    // clear out a message
    void clear();
+   // add a control level to the message. 
+   void addControl(Control newControl);
 
 private:
    int id;                   // the unique ID of this message
@@ -50,4 +52,5 @@ private:
    std::string text;         // the textual content of this message
    std::string author;       // the author of this message
    std::string date;         // the date this message was created
+   Control control;
 };
