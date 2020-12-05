@@ -28,7 +28,8 @@ Control Messages::getMessageControl(int id)
       it != messages.end();
       ++it)
       if (it->getID() == id)
-         it->getControl();
+         return it->getControl();
+   return Control::SECRET;
 }
 
 /***********************************************
