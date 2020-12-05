@@ -11,6 +11,7 @@
 #include <string>     // for convenience
 #include <cassert>    // because I am paraniod
 #include <stdlib.h>   // for atoi 
+#include <vector>     // for std::vector
 #include "messages.h" // to interact with the collection of messages
 #include "control.h"  // all the Bell-LaPadula stuff
 #include "interact.h" // the interact class and User structure
@@ -20,8 +21,9 @@ using namespace std;
 /**************************************************************
  * USERS
  * All the users currently in the system
+ * Make it a vector so users can be added or modified easily
  *************************************************************/
-const User users[] =
+vector<User> users =
 {
    { "AdmiralAbe",     "password", SECRET },
    { "CaptainCharlie", "password", PRIVILEGED },
@@ -134,7 +136,7 @@ void Interact::remove()
  ***************************************************/
 void displayUsers()
 {
-   for (int idUser = 0; idUser < sizeof(users) / sizeof(users[0]); idUser++)
+   for (int idUser = 0; idUser < users.size(); idUser++)
       cout << "\t" << users[idUser].name << endl;
 }
 
@@ -183,7 +185,7 @@ Control Interact::authenticate(const string& userName,
  ****************************************************/
 int Interact::idFromUser(const string& userName) const
 {
-   for (int idUser = 0; idUser < sizeof(users) / sizeof(users[0]); idUser++)
+   for (int idUser = 0; idUser < users.size(); idUser++)
       if (userName == string(users[idUser].name))
          return idUser;
    return ID_INVALID;
