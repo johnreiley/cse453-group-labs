@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="control.cpp" />
     <ClCompile Include="interact.cpp" />
     <ClCompile Include="lab12.cpp" />
     <ClCompile Include="message.cpp" />

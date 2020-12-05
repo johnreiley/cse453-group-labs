@@ -8,7 +8,7 @@
  *    their proofs validate the security of this system.
  *********************************************************************/
 #include "unit-tests.h"
-
+#include "control.h"
 #define NAME "Unit Test"
 
 void runUnitTests()
@@ -17,32 +17,32 @@ void runUnitTests()
     Control general = Control::PUBLIC;
     // general public shouldn't be able to read any type of confidential stuff
     assert(!securityControlRead(Control::CONFIDENTIAL, general));
-    assert(!securityControlRead(Control::PRIVILEDGED, general));
+    assert(!securityControlRead(Control::PRIVILEGED, general));
     assert(!securityControlRead(Control::SECRET, general));
     // general public should be able to read any public stuff
     assert(securityControlRead(Control::PUBLIC, general));
 
     Control confidant = Control::CONFIDENTIAL;
     // confidant shouldn't be able to read anything higher than confidential
-    assert(!securityControlRead(Control::PRIVILEDGED, confidant));
+    assert(!securityControlRead(Control::PRIVILEGED, confidant));
     assert(!securityControlRead(Control::SECRET, confidant));
     // confidant should be able to read anything confidential or lower
     assert(securityControlRead(Control::CONFIDENTIAL, confidant));
     assert(securityControlRead(Control::PUBLIC, confidant));
 
-    Control privy = Control::PRIVILEDGED;
+    Control privy = Control::PRIVILEGED;
     // privy shouldn't be able to read anything higher than priviledged 
     assert(!securityControlRead(Control::SECRET, privy));
     // privy should be able to read anything confidential or lower
     assert(securityControlRead(Control::PUBLIC, privy));
     assert(securityControlRead(Control::CONFIDENTIAL, privy));
-    assert(securityControlRead(Control::PRIVILEDGED, privy));
+    assert(securityControlRead(Control::PRIVILEGED, privy));
     
     Control seek = Control::SECRET;
     // seek should be able to read anything 
     assert(securityControlRead(Control::PUBLIC, seek));
     assert(securityControlRead(Control::CONFIDENTIAL, seek));
-    assert(securityControlRead(Control::PRIVILEDGED, seek));
+    assert(securityControlRead(Control::PRIVILEGED, seek));
     assert(securityControlRead(Control::SECRET, seek));
     cout << NAME << ": Passed securityControlRead tests\n";
     
@@ -50,11 +50,11 @@ void runUnitTests()
     // general public should be able to write to any asset
     assert(securityControlWrite(Control::PUBLIC, general));
     assert(securityControlWrite(Control::CONFIDENTIAL, general));
-    assert(securityControlWrite(Control::PRIVILEDGED, general));
+    assert(securityControlWrite(Control::PRIVILEGED, general));
     assert(securityControlWrite(Control::SECRET, general));
 
     // confidant should be able to write to anything confidential or higher
-    assert(securityControlWrite(Control::PRIVILEDGED, confidant));
+    assert(securityControlWrite(Control::PRIVILEGED, confidant));
     assert(securityControlWrite(Control::SECRET, confidant));
     assert(securityControlWrite(Control::CONFIDENTIAL, confidant));
     // confidant shouldn't be able to write to anything lower than confidential
@@ -64,13 +64,13 @@ void runUnitTests()
     assert(!securityControlWrite(Control::PUBLIC, privy));
     assert(!securityControlWrite(Control::CONFIDENTIAL, privy));
     // privy should be able to write anything priviledged or higher
-    assert(securityControlWrite(Control::PRIVILEDGED, privy));
+    assert(securityControlWrite(Control::PRIVILEGED, privy));
     assert(securityControlWrite(Control::SECRET, privy));
     
     // seek shouldn't be able to write anything except secret
     assert(!securityControlWrite(Control::PUBLIC, seek));
     assert(!securityControlWrite(Control::CONFIDENTIAL, seek));
-    assert(!securityControlWrite(Control::PRIVILEDGED, seek));
+    assert(!securityControlWrite(Control::PRIVILEGED, seek));
     // seek should be able to write secret assets 
     assert(securityControlWrite(Control::SECRET, seek));
     cout << NAME << ": Passed securityControlWrite tests\n";
