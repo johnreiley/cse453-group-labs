@@ -32,13 +32,12 @@ bool securityControlWrite(Control assetControl, Control subjectControl) // A - a
    // D - decision or result of the request
    return subjectControl <= assetControl;
 }
+
+/*******************************************
+ * Convert a text control value to its 
+ * representative access-control level
+ *******************************************/
 Control convertToEnum(std::string textControl)
 {
-	std::map<std::string, Control> ControlMap;
-	ControlMap["Confidential"] = CONFIDENTIAL;
-	ControlMap["Secret"] = SECRET;
-	ControlMap["Privileged"] = PRIVILEGED;
-	ControlMap["Public"] = PUBLIC;
-
-	return ControlMap[textControl];
+    return ControlMap[textControl];
 }
