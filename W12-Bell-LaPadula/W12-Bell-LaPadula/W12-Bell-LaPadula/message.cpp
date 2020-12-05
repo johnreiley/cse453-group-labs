@@ -88,4 +88,8 @@ void Message::clear()
    empty = true;
 }
 
+void Message::addControl(Control newControl)
+{
+	this->control = newControl;
+}
 int Message::idNext = 100;

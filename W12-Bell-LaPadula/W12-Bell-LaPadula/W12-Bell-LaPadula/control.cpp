@@ -8,7 +8,6 @@
  ************************************************************************/
 
 #include "control.h" // the header file 
-
 // R - request for access to an object
 /**************************************
 * Determines whether or not the user
@@ -33,7 +32,13 @@ bool securityControlWrite(Control assetControl, Control subjectControl) // A - a
    // D - decision or result of the request
    return subjectControl <= assetControl;
 }
-Control convertToEnum(string textControl)
+Control convertToEnum(std::string textControl)
 {
-	Return PUBLIC;
+	std::map<std::string, Control> ControlMap;
+	ControlMap["Confidential"] = CONFIDENTIAL;
+	ControlMap["Secret"] = SECRET;
+	ControlMap["Privileged"] = PRIVILEGED;
+	ControlMap["Public"] = PUBLIC;
+
+	return ControlMap[textControl];
 }
