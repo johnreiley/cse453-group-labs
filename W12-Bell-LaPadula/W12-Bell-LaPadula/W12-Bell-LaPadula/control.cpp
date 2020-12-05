@@ -8,6 +8,20 @@
  ************************************************************************/
 
 #include "control.h" // the header file 
+
+/******************************************
+ * A map of control name to value mappings
+ * used by controlToEnum()
+ ******************************************/
+const std::map<const std::string, const Control> ControlMap =
+{
+    {"Confidential", CONFIDENTIAL},
+    {"Secret", SECRET},
+    {"Privileged", PRIVILEGED},
+    {"Public", PUBLIC}
+};
+
+
 // R - request for access to an object
 /**************************************
 * Determines whether or not the user
@@ -37,7 +51,7 @@ bool securityControlWrite(Control assetControl, Control subjectControl) // A - a
  * Convert a text control value to its 
  * representative access-control level
  *******************************************/
-Control convertToEnum(std::string textControl)
+const Control convertToEnum(const std::string textControl)
 {
-    return ControlMap[textControl];
+    return ControlMap.at(textControl);
 }

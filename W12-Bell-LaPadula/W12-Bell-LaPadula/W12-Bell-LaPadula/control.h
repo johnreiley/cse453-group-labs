@@ -6,23 +6,12 @@
  * Summary:
  *    This class stores the notion of Bell-LaPadula
  ************************************************************************/
-	
-/******************************************
- * A map of control name to value mappings
- * used by controlToEnum()
- ******************************************/
-const std::map<std::string, Control> ControlMap =
-{
-    {"Confidential", CONFIDENTIAL},
-    {"Secret", SECRET},
-    {"Privileged", PRIVILEGED},
-    {"Public", PUBLIC}
-};
-
 
 #pragma once
-#include "string"
-#include "map"
+
+#include <string>
+#include <map>
+	
 // C - classification of security levels
 enum Control {
    PUBLIC, 
@@ -52,4 +41,4 @@ bool securityControlWrite(Control assetControl, Control subjectControl);
  * Convert a text control value to its 
  * representative access-control level
  *******************************************/
-Control convertToEnum(std::string textControl);
+const Control convertToEnum(const std::string textControl);
