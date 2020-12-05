@@ -8,8 +8,8 @@
  *    their proofs validate the security of this system.
  *********************************************************************/
 #include "unit-tests.h"
-#include "control.h"
 #define NAME "Unit Test"
+using namespace std;
 
 /***********************************************************
  * Run Unit Tests

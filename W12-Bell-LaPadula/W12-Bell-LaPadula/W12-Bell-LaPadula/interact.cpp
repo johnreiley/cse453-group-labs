@@ -23,7 +23,7 @@ using namespace std;
  * All the users currently in the system
  * Make it a vector so users can be added or modified easily
  *************************************************************/
-vector<User> users =
+std::vector<User> users =
 {
    { "AdmiralAbe",     "password", SECRET },
    { "CaptainCharlie", "password", PRIVILEGED },
@@ -31,6 +31,7 @@ vector<User> users =
    { "SeamanSue",      "password", CONFIDENTIAL },
    { "SeamanSly",      "password", CONFIDENTIAL }
 };
+
 
 const int ID_INVALID = -1;
 
