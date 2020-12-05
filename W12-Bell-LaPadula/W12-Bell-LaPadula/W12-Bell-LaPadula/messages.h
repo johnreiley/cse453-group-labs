@@ -25,7 +25,7 @@ public:
    Messages(const char* fileName) { readMessages(fileName); }
 
    // get message control value
-   Control Messages::getMessageControl(int id);
+   Control getMessageControl(int id);
 
    // display the list of messages
    void display(Control userControl) const;
@@ -46,10 +46,10 @@ public:
       const std::string& date);
 
     // add a new message
-   void Messages::add(Control control,
-   const string& text,
-   const string& author,
-   const string& date);
+   void add(Control control,
+   const std::string& text,
+   const std::string& author,
+   const std::string& date);
 
 private:
    // the list of messages
