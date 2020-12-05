@@ -60,7 +60,7 @@ void Interact::show() const
 
    if (securityControlRead(messageControl, userControl))
    {
-   pMessages->show(messageId);
+       pMessages->show(messageId);
    }
 }
 
