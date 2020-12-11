@@ -81,7 +81,7 @@ public:
       // Helper function
       str += "getRow(index, interval)\n";
       str += "   IF index + % interval < (interval / 2)\n";
-      str += "      RETURN index % 6\n";
+      str += "      RETURN index % interval\n";
       str += "   ELSE\n";
       str += "      RETURN absolute value of (index % (interval / 2)) - interval / 2\n";
 
