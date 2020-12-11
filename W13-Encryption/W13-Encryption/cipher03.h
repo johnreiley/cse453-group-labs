@@ -37,7 +37,6 @@ public:
       // TODO: please format your pseudocode
       // The encrypt pseudocode
 	  str = "encrypt(plainText, password)\n";
-	  str += "   
 	  str += "   FOR p is all values of plainText\n";
 	  str += "      index <- indexFromCharacter(*p)+ indexFromCharacter(password++) % size\n";
 	  str += "      cipherText += characterFromIndex(index)\n";
@@ -45,7 +44,6 @@ public:
 
       // The decrypt pseudocode
 	  str = "decrypt(plainText, password)\n";
-	  str += "   
       str += "   FOR p is all values of cipherText\n";
 	  str += "      index <- indexFromCharacter(*p) - indexFromCharacter(password++) % size\n";
 	  str += "      cipherText += characterFromIndex(index)\n";
