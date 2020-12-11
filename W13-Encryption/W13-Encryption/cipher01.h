@@ -16,7 +16,7 @@ class Cipher01 : public Cipher
 public:
    virtual std::string getPseudoAuth() { return "Benjamin Hansen"; }
    virtual std::string getCipherName() { return "Playfair"; }
-   virtual std::string getEncryptAuth() { return "encrypt author"; }
+   virtual std::string getEncryptAuth() { return "Garrett Smith"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
    /***********************************************************
@@ -87,6 +87,47 @@ public:
    }
 
    /**********************************************************
+    * BUILD POLYBIUS SQUARE
+    * Creates the 5x5 square that is used to encrypt data
+    **********************************************************/
+   virtual void buildPolybiusSquare(char square[][5], std::string key)
+   {
+   string alphabet = "abcdefghi*klmnopqrstuvwxyz";
+   string polybius = "";  
+   for(int i = 0; i < key.size(); i++)
+   {
+      if(key[i] != 'j')
+      {
+
+         key[i] = tolower(key[i]);
+      }
+      else
+      {
+         continue;
+      }
+
+      if( key[i] == alphabet[(int)key[i] - 97])
+      {
+         polybius += key[i];
+         alphabet[(int)key[i] - 97] = '*';
+       
+      }
+                                   
+   }
+   polybius += alphabet;
+   int i = 0;
+   for(int r = 0; r < 5; r++)
+      for(int c = 0; c < 5; c++)
+      {
+         
+         square[c][r] = polybius[i];
+         i++;
+         while(polybius[i] == '*')
+         i++;
+      }   
+   }
+
+   /**********************************************************
     * ENCRYPT
     * TODO: ADD description
     **********************************************************/
@@ -94,7 +135,9 @@ public:
       const std::string& password)
    {
       std::string cipherText = plainText;
-      // TODO - Add your code here
+      char matrix[5][5];
+      buildPolybiusSquare(matrix, password);
+      
       return cipherText;
    }
 
