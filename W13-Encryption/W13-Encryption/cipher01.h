@@ -92,8 +92,8 @@ public:
     **********************************************************/
    virtual void buildPolybiusSquare(char square[][5], std::string key)
    {
-   string alphabet = "abcdefghi*klmnopqrstuvwxyz";
-   string polybius = "";  
+   std::string alphabet = "abcdefghi*klmnopqrstuvwxyz";
+   std::string polybius = "";  
    for(int i = 0; i < key.size(); i++)
    {
       if(key[i] != 'j')
