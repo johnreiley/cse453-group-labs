@@ -13,7 +13,7 @@ class Cipher03 : public Cipher
 {
 public:
    virtual std::string getPseudoAuth() { return "Justen Neeley"; }
-   virtual std::string getCipherName() { return "cipher name"; }
+   virtual std::string getCipherName() { return "Vigenere Cipher"; }
    virtual std::string getEncryptAuth() { return "encrypt author"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
@@ -23,7 +23,7 @@ public:
     ***********************************************************/
    virtual std::string getCipherCitation()
    {
-      return std::string("citation");
+      return std::string("DCode. (2020). Vigenere Cipher. Retrieved December 11, 2020, from https://www.dcode.fr/vigenere-cipher");
    }
 
    /**********************************************************
@@ -36,10 +36,20 @@ public:
 
       // TODO: please format your pseudocode
       // The encrypt pseudocode
-      str = "insert the encryption pseudocode\n";
+	  str = "encrypt(plainText, password)\n";
+	  str += "   
+	  str += "   FOR p is all values of plainText\n";
+	  str += "      index <- indexFromCharacter(*p)+ indexFromCharacter(password++) % size\n";
+	  str += "      cipherText += characterFromIndex(index)\n";
+	  str += "   RETURN cipherText\n\n";
 
       // The decrypt pseudocode
-      str += "insert the decryption pseudocode\n";
+	  str = "decrypt(plainText, password)\n";
+	  str += "   
+      str += "   FOR p is all values of cipherText\n";
+	  str += "      index <- indexFromCharacter(*p) - indexFromCharacter(password++) % size\n";
+	  str += "      cipherText += characterFromIndex(index)\n";
+	  str += "   RETURN cipherText\n\n";
 
       return str;
    }
@@ -52,7 +62,7 @@ public:
       const std::string& password)
    {
       std::string cipherText = plainText;
-      // TODO - Add your code here
+      // TOD
       return cipherText;
    }
 
