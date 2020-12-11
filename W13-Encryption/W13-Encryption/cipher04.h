@@ -13,7 +13,7 @@ class Cipher04 : public Cipher
 {
 public:
    virtual std::string getPseudoAuth() { return "Joseph Sanderson"; }
-   virtual std::string getCipherName() { return "cipher name"; }
+   virtual std::string getCipherName() { return "Baconian Cipher"; }
    virtual std::string getEncryptAuth() { return "encrypt author"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
@@ -23,7 +23,11 @@ public:
     ***********************************************************/
    virtual std::string getCipherCitation()
    {
-      return std::string("citation");
+      std::string s;
+      s += "geeksforgeeks.org (2018), ";
+      s += "\"Baconian Cipher\', \n   retrieved: December 11, 2020";
+      s += "https://www.geeksforgeeks.org/baconian-cipher/";
+      return s;
    }
 
    /**********************************************************
@@ -34,12 +38,24 @@ public:
    {
       std::string str;
 
-      // TODO: please format your pseudocode
       // The encrypt pseudocode
-      str = "insert the encryption pseudocode\n";
+      str =  "encrypt(password)\n";
+      str += "declare map\n";
+      str += "fill map\n";
+      str += "FOR each character in password\n";
+	   str += "         index through(plainText)\n";
+	   str += "            plainText[?] = map index?\n";
+		str += "            map index? = cipherText\n";
+	   str += "      Return cipherText\n";
 
       // The decrypt pseudocode
-      str += "insert the decryption pseudocode\n";
+      str =  "decrypt(cipherText, map)\n";
+      str += "FOR each character in cipherText, variable+=7\n";
+	   str += "         index through(cipherText)\n";
+      str += "          split cipherText every 7 characters\n";
+	   str += "            cipherText[?] = map[?]\n";
+		str += "               map[?] = plainText\n";
+	   str += "      Return plainText\n";
 
       return str;
    }
