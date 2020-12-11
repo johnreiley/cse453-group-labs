@@ -1,0 +1,155 @@
+encrypt(plaintext, password)\n
+\t// declare 26-letter alphabet to begin encryption\n
+\tSET alphabet = A .. Z // 26 letters to begin\n
+\n
+\t/* use password */ \n
+\t// make 5x5 matrix\n
+\tSET matrix[5][5]\n
+\t\n
+\t// strip invalid characters away and format in all upper-case\n
+\tSET password = format(password) \n
+\n
+\t// remove duplicate letters\n
+\tSET password = removeDuplicates(password)\n
+\n
+\t// perform the set minus operation to remove all unique letters in password \n
+\t// from alphabet\n
+\t// this will remove I or J if the password contains either of those\n
+\t// the combination of a pair of letters is done after this\n
+\tSET alphabet = alphabet - password\n
+\n
+\t// since we declared the alphabet to have 1-character too many,\n
+\t// we need to combine two letters if the alphabet is not zero\n
+\t// reduce the alphabet \n
+\tIF alphabet size is not zero\n
+\t\tSET two characters to contain the same cell\n
+\n
+\t// fill in matrix with first with password and then with letters from alphabet, in order\n
+\t// if the password contains 25 unique letters, then the second set of for-loops should not\n
+\t// be performed. The loops should give priority to the marix size. Thus, passwords longer\n
+\t// than 25 letters are not used.\n
+\tSET i = 0, r = 0, c = 0\n
+\tFOR r = 0 to 5 by 1s\n
+\t\tFOR c = 0 to 5 by 1s\n
+\t\t\tSET matrix[r][c] = password[i]\n
+\t\t\tSET i = i + 1\n
+\t\t\tIF i == length of password\n
+\t\t\t\tbreak out of both loops\n
+\t\n
+\t// the remaining slots in the matrix will be filled with the alphabet\n
+\tSET i = 0 // fill in from previous r and c\n
+\tFOR r to 5 by 1s\n
+\t\tFOR c to 5 by 1s\n
+\t\t\tSET matrix[r][c] = alphabet[i]\n
+\t\t\tSET i = i + 1\n
+\n
+\t/* use plaintext */\n
+\t// strip invalid characters away and format in all upper-case\n
+\tSET plaintext = format(plaintext)\n
+\n
+\t// add filler character ('X') for repeated letters (like 'LL')\n
+\tSET plaintext = addFiller(plaintext)\n
+\n
+\t// if odd number of pairs (an odd length), add filler character to the end\n
+\tplaintext.append('X')\n
+\n
+\t// now encrypt the plaintext\n
+\tSET ciphertext = ""\n
+\t// go to one less than the plaintext because we take\n
+\t// pairs (i and i+1)\n
+\tFOR m = 0 to length of plaintext - 2 by 1s\n
+\t\t// get the row-column indices in the matrix corresponding to the characters in the pair\n
+\t\tSET (r1, c1) = get index of plaintext[m] in matrix\n
+\t\tSET (r2, c2) = get index of plaintext[m+1] in matrix\n
+\n
+\t\t// perform specific case true of the pair\n
+\t\t// Case 1: letters in pair fall in the same row\n
+\t\tIF r1 == r2\n
+\t\t\t// replace pair with adjacent letters directly to the right\n
+\t\t\tciphertext.append(matrix[r1][(c1 + 1) mod 5])\n
+\t\t\tciphertext.append(matrix[r2][(c2 + 1) mod 5])\n
+\t\t// Case 2: letters in pair fall in the same column\n
+\t\tELSE IF c1 == c2\n
+\t\t\t// replace pair with adjacent letters directly below\n
+\t\t\tciphertext.append(matrix([r1 + 1) mod 5]][c1])\n
+\t\t\tciphertext.append(matrix[(r2 + 1) mod 5]][c2])\n
+\t\t// Case 3: letters fall in different row and column\n
+\t\tELSE \n
+\t\t\t// replace pair with respective rectangle corner letters\n
+\t\t\t// within the same row but at the column of the other letter in the pair\n
+\t\t\tciphertext.append(matrix(matrix[r1][c2]))\n
+\t\t\tciphertext.append(matrix(matrix[r2][cl]))\n
+\tRETURN ciphertext\n
+\n
+decrypt(ciphertext, password)\n
+\t// declare 26-letter alphabet to begin encryption\n
+\tSET alphabet = A .. Z // 26 letters to begin\n
+\n
+\t/* use password */ \n
+\t// make 5x5 matrix\n
+\tSET matrix[5][5]\n
+\t\n
+\t// strip invalid characters away and format in all upper-case\n
+\tSET password = format(password) \n
+\n
+\t// remove duplicate letters\n
+\tSET password = removeDuplicates(password)\n
+\n
+\t// perform the set minus operation to remove all unique letters in password \n
+\t// from alphabet\n
+\t// this will remove I or J if the password contains either of those\n
+\t// the combination of a pair of letters is done after this\n
+\tSET alphabet = alphabet - password\n
+\n
+\t// since we declared the alphabet to have 1-character too many,\n
+\t// we need to combine two letters if the alphabet is not zero\n
+\t// reduce the alphabet \n
+\tIF alphabet size is not zero\n
+\t\tSET two characters to contain the same cell\n
+\n
+\t// fill in matrix with first with password and then with letters from alphabet, in order\n
+\t// if the password contains 25 unique letters, then the second set of for-loops should not\n
+\t// be performed. The loops should give priority to the marix size. Thus, passwords longer\n
+\t// than 25 letters are not used.\n
+\tSET i = 0, r = 0, c = 0\n
+\tFOR r = 0 to 5 by 1s\n
+\t\tFOR c = 0 to 5 by 1s\n
+\t\t\tSET matrix[r][c] = password[i]\n
+\t\t\tSET i = i + 1\n
+\t\t\tIF i == length of password\n
+\t\t\t\tbreak out of both loops\n
+\t\n
+\t// the remaining slots in the matrix will be filled with the alphabet\n
+\tSET i = 0 // fill in from previous r and c\n
+\tFOR r to 5 by 1s\n
+\t\tFOR c to 5 by 1s\n
+\t\t\tSET matrix[r][c] = alphabet[i]\n
+\t\t\tSET i = i + 1\n
+\n
+\t// now decrypt the ciphertext\n
+\tSET plaintext = ""\n
+\t// go to one less than the ciphertext because we take\n
+\t// pairs (i and i+1)\n
+\tFOR m = 0 to length of ciphertext - 2 by 1s\n
+\t\t// get the row-column indices in the matrix corresponding to the characters in the pair\n
+\t\tSET (r1, c1) = get index of ciphertext[m] in matrix\n
+\t\tSET (r2, c2) = get index of ciphertext[m+1] in matrix\n
+\n
+\t\t// perform specific case true of the pair\n
+\t\t// Case 1: letters in pair fall in the same row\n
+\t\tIF r1 == r2\n
+\t\t\t// replace pair with adjacent letters directly to the left\n
+\t\t\tplaintext.append(matrix[r1][(c1 - 1) mod 5])\n
+\t\t\tplaintext.append(matrix[r2][(c2 - 1) mod 5])\n
+\t\t// Case 2: letters in pair fall in the same column\n
+\t\tELSE IF c1 == c2\n
+\t\t\t// replace pair with adjacent letters directly above\n
+\t\t\tplaintext.append(matrix([r1 - 1) mod 5]][c1])\n
+\t\t\tplaintext.append(matrix[(r2 - 1) mod 5]][c2])\n
+\t\t// Case 3: letters fall in different row and column\n
+\t\tELSE \n
+\t\t\t// replace pair with respective rectangle corner letters\n
+\t\t\t// within the same row but at the column of the other letter in the pair\n
+\t\t\tplaintext.append(matrix(matrix[r1][c2]))\n
+\t\t\tplaintext.append(matrix(matrix[r2][cl]))\n
+\tRETURN plaintext\n

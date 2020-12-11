@@ -1,0 +1,155 @@
+encrypt(plaintext, password)
+    // declare 26-letter alphabet to begin encryption
+    SET alphabet = A .. Z // 26 letters to begin
+
+    /* use password */ 
+    // make 5x5 matrix
+    SET matrix[5][5]
+    
+    // strip invalid characters away and format in all upper-case
+    SET password = format(password) 
+
+    // remove duplicate letters
+    SET password = removeDuplicates(password)
+
+    // perform the set minus operation to remove all unique letters in password 
+    // from alphabet
+    // this will remove I or J if the password contains either of those
+    // the combination of a pair of letters is done after this
+    SET alphabet = alphabet - password
+
+    // since we declared the alphabet to have 1-character too many,
+    // we need to combine two letters if the alphabet is not zero
+    // reduce the alphabet 
+    IF alphabet size is not zero
+        SET two characters to contain the same cell
+
+    // fill in matrix with first with password and then with letters from alphabet, in order
+    // if the password contains 25 unique letters, then the second set of for-loops should not
+    // be performed. The loops should give priority to the marix size. Thus, passwords longer
+    // than 25 letters are not used.
+    SET i = 0, r = 0, c = 0
+    FOR r = 0 to 5 by 1s
+        FOR c = 0 to 5 by 1s
+            SET matrix[r][c] = password[i]
+            SET i = i + 1
+            IF i == length of password
+                break out of both loops
+    
+    // the remaining slots in the matrix will be filled with the alphabet
+    SET i = 0 // fill in from previous r and c
+    FOR r to 5 by 1s
+        FOR c to 5 by 1s
+            SET matrix[r][c] = alphabet[i]
+            SET i = i + 1
+
+    /* use plaintext */
+    // strip invalid characters away and format in all upper-case
+    SET plaintext = format(plaintext)
+
+    // add filler character ('X') for repeated letters (like 'LL')
+    SET plaintext = addFiller(plaintext)
+
+    // if odd number of pairs (an odd length), add filler character to the end
+    plaintext.append('X')
+
+    // now encrypt the plaintext
+    SET ciphertext = ""
+    // go to one less than the plaintext because we take
+    // pairs (i and i+1)
+    FOR m = 0 to length of plaintext - 2 by 1s
+        // get the row-column indices in the matrix corresponding to the characters in the pair
+        SET (r1, c1) = get index of plaintext[m] in matrix
+        SET (r2, c2) = get index of plaintext[m+1] in matrix
+
+        // perform specific case true of the pair
+        // Case 1: letters in pair fall in the same row
+        IF r1 == r2
+            // replace pair with adjacent letters directly to the right
+            ciphertext.append(matrix[r1][(c1 + 1) mod 5])
+            ciphertext.append(matrix[r2][(c2 + 1) mod 5])
+        // Case 2: letters in pair fall in the same column
+        ELSE IF c1 == c2
+            // replace pair with adjacent letters directly below
+            ciphertext.append(matrix([r1 + 1) mod 5]][c1])
+            ciphertext.append(matrix[(r2 + 1) mod 5]][c2])
+        // Case 3: letters fall in different row and column
+        ELSE 
+            // replace pair with respective rectangle corner letters
+            // within the same row but at the column of the other letter in the pair
+            ciphertext.append(matrix(matrix[r1][c2]))
+            ciphertext.append(matrix(matrix[r2][cl]))
+    RETURN ciphertext
+
+decrypt(ciphertext, password)
+    // declare 26-letter alphabet to begin encryption
+    SET alphabet = A .. Z // 26 letters to begin
+
+    /* use password */ 
+    // make 5x5 matrix
+    SET matrix[5][5]
+    
+    // strip invalid characters away and format in all upper-case
+    SET password = format(password) 
+
+    // remove duplicate letters
+    SET password = removeDuplicates(password)
+
+    // perform the set minus operation to remove all unique letters in password 
+    // from alphabet
+    // this will remove I or J if the password contains either of those
+    // the combination of a pair of letters is done after this
+    SET alphabet = alphabet - password
+
+    // since we declared the alphabet to have 1-character too many,
+    // we need to combine two letters if the alphabet is not zero
+    // reduce the alphabet 
+    IF alphabet size is not zero
+        SET two characters to contain the same cell
+
+    // fill in matrix with first with password and then with letters from alphabet, in order
+    // if the password contains 25 unique letters, then the second set of for-loops should not
+    // be performed. The loops should give priority to the marix size. Thus, passwords longer
+    // than 25 letters are not used.
+    SET i = 0, r = 0, c = 0
+    FOR r = 0 to 5 by 1s
+        FOR c = 0 to 5 by 1s
+            SET matrix[r][c] = password[i]
+            SET i = i + 1
+            IF i == length of password
+                break out of both loops
+    
+    // the remaining slots in the matrix will be filled with the alphabet
+    SET i = 0 // fill in from previous r and c
+    FOR r to 5 by 1s
+        FOR c to 5 by 1s
+            SET matrix[r][c] = alphabet[i]
+            SET i = i + 1
+
+    // now decrypt the ciphertext
+    SET plaintext = ""
+    // go to one less than the ciphertext because we take
+    // pairs (i and i+1)
+    FOR m = 0 to length of ciphertext - 2 by 1s
+        // get the row-column indices in the matrix corresponding to the characters in the pair
+        SET (r1, c1) = get index of ciphertext[m] in matrix
+        SET (r2, c2) = get index of ciphertext[m+1] in matrix
+
+        // perform specific case true of the pair
+        // Case 1: letters in pair fall in the same row
+        IF r1 == r2
+            // replace pair with adjacent letters directly to the left
+            plaintext.append(matrix[r1][(c1 - 1) mod 5])
+            plaintext.append(matrix[r2][(c2 - 1) mod 5])
+        // Case 2: letters in pair fall in the same column
+        ELSE IF c1 == c2
+            // replace pair with adjacent letters directly above
+            plaintext.append(matrix([r1 - 1) mod 5]][c1])
+            plaintext.append(matrix[(r2 - 1) mod 5]][c2])
+        // Case 3: letters fall in different row and column
+        ELSE 
+            // replace pair with respective rectangle corner letters
+            // within the same row but at the column of the other letter in the pair
+            plaintext.append(matrix(matrix[r1][c2]))
+            plaintext.append(matrix(matrix[r2][cl]))
+    RETURN plaintext

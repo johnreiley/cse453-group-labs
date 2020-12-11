@@ -6,6 +6,8 @@
 #ifndef CIPHER01_H
 #define CIPHER01_H
 
+#include <fstream>
+
 /********************************************************************
  * CLASS
  *******************************************************************/
@@ -13,7 +15,7 @@ class Cipher01 : public Cipher
 {
 public:
    virtual std::string getPseudoAuth() { return "Benjamin Hansen"; }
-   virtual std::string getCipherName() { return "cipher name"; }
+   virtual std::string getCipherName() { return "Playfair"; }
    virtual std::string getEncryptAuth() { return "encrypt author"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
@@ -32,14 +34,21 @@ public:
     **********************************************************/
    virtual std::string getPseudocode()
    {
-      std::string str;
+      std::string str = "";
 
-      // TODO: please format your pseudocode
-      // The encrypt pseudocode
-      str = "insert the encryption pseudocode\n";
+      std::ifstream fin("playfair-pseudocode.txt");
 
-      // The decrypt pseudocode
-      str += "insert the decryption pseudocode\n";
+      if (fin.fail())
+      {
+          cerr << "Error reading playfair-pseudocode.txt\n";
+          return "";
+      }
+      // else continue
+     
+      while (getline(fin, temp))
+      {
+          str += temp;
+      }
 
       return str;
    }
