@@ -35,17 +35,18 @@ public:
    virtual std::string getPseudocode()
    {
       std::string str = "";
+      std::string temp = "";
 
       std::ifstream fin("playfair-pseudocode.txt");
 
       if (fin.fail())
       {
-          cerr << "Error reading playfair-pseudocode.txt\n";
+          std::cerr << "Error reading playfair-pseudocode.txt\n";
           return "";
       }
       // else continue
      
-      while (getline(fin, temp))
+      while (std::getline(fin, temp))
       {
           str += temp;
       }
