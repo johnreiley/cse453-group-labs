@@ -23,7 +23,7 @@ public:
     ***********************************************************/
    virtual std::string getCipherCitation()
    {
-      return std::string("DCode. (2020). Vigenere Cipher. Retrieved December 11, 2020, from https://www.dcode.fr/vigenere-cipher");
+      return std::string("LaMagna, E. (2010). Vigenère Cipher. Retrieved December 11, 2020, from https://www.cs.uri.edu/cryptography/classicalvigenere.htm");
    }
 
    /**********************************************************
