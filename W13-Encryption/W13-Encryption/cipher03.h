@@ -14,7 +14,7 @@ class Cipher03 : public Cipher
 public:
    virtual std::string getPseudoAuth() { return "Justen Neeley"; }
    virtual std::string getCipherName() { return "Vigenere Cipher"; }
-   virtual std::string getEncryptAuth() { return "encrypt author"; }
+   virtual std::string getEncryptAuth() { return "Joseph Sanderson"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
    /***********************************************************
@@ -23,7 +23,9 @@ public:
     ***********************************************************/
    virtual std::string getCipherCitation()
    {
-      return std::string("LaMagna, E. (2010). Vigen�re Cipher. Retrieved December 11, 2020, from https://www.cs.uri.edu/cryptography/classicalvigenere.htm");
+      return std::string("LaMagna, E. (2010). Vigenère Cipher. Retrieved December 11, 2020, from https://www.cs.uri.edu/cryptography/classicalvigenere.htm");
+      // For encryption
+      return std::string("Mol, Micheal (2020). Vigenère cipher. Retrieved December 12, 2020, from https://rosettacode.org/wiki/Vigen%C3%A8re_cipher#C.2B.2B");
    }
 
    /**********************************************************
@@ -60,8 +62,35 @@ public:
       const std::string& password)
    {
       std::string cipherText = plainText;
-      // TOD
-      return cipherText;
+  	std::string key = password;
+		string key
+  		{
+    			for(int i = 0; i < key.size(); ++i)
+    			{
+      				if(key[i] >= 'A' && key[i] <= 'Z')
+        			this->key += key[i];
+      				else if(key[i] >= 'a' && key[i] <= 'z')
+        			this->key += key[i] + 'A' - 'a';
+    			}
+		string encrypt(string plainText)
+  		{
+    		std::string cipherText;
+ 		
+		int j = 0;
+    		for(int i = 0, i < plainText.length(); ++i)
+    		{
+      			std::string add = plainText[i];
+ 
+      			if(add >= 'a' && add <= 'z')
+        		add += 'A' - 'a';
+      			else if(add < 'A' || add > 'Z')
+        		continue;
+ 			cipherText += (add + key[j] - 2*'A') % 26 + 'A'; 
+      			j = (j + 1) % key.length();
+    		}
+			
+ 		 }
+      	return cipherText;
    }
 
    /**********************************************************
@@ -72,7 +101,7 @@ public:
       const std::string& password)
    {
       std::string plainText = cipherText;
-      // TODO - Add your code here
+      
       return plainText;
    }
 };
