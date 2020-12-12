@@ -14,8 +14,47 @@ class Cipher04 : public Cipher
 public:
    virtual std::string getPseudoAuth() { return "Joseph Sanderson"; }
    virtual std::string getCipherName() { return "Baconian Cipher"; }
-   virtual std::string getEncryptAuth() { return "encrypt author"; }
+   virtual std::string getEncryptAuth() { return "John Reiley"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
+
+   private :
+      std::map<char, std::string> lookup = {
+         {'A', "aaaaa"}, {'B', "aaaab"}, {'C', "aaaba"}, {'D', "aaabb"},
+         {'E', "aabaa"}, {'F', "aabab"}, {'G', "aabba"}, {'H', "aabbb"},
+         {'I', "abaaa"}, {'J', "abaab"}, {'K', "ababa"}, {'L', "ababb"},
+         {'M', "abbaa"}, {'N', "abbab"}, {'O', "abbba"}, {'P', "abbbb"},
+         {'Q', "baaaa"}, {'R', "baaab"}, {'S', "baaba"}, {'T', "baabb"},
+         {'U', "babaa"}, {'V', "babab"}, {'W', "babba"}, {'X', "babbb"},
+         {'Y', "bbaaa"}, {'Z', "bbaab"}
+      };
+
+      /**********************************************************
+       * CONVERT
+       * Converts a password into an int that is usable by the
+       * Baconian cipher.
+       **********************************************************/
+      int convert(std::string password)
+      {
+         int bits;
+         try
+         {
+            // if the password has a number, use as bits
+            bits = stoi(password);
+         }
+         catch (const std::exception& e)
+         {
+            // use length as bits
+            bits = password.length();
+         }
+
+         if (bits < 5) {
+            return 5;
+         }
+         else
+         {
+            return bits;
+         }
+      }
 
    /***********************************************************
     * GET CIPHER CITATION
@@ -25,7 +64,7 @@ public:
    {
       std::string s;
       s += "geeksforgeeks.org (2018), ";
-      s += "\"Baconian Cipher\', \n   retrieved: December 11, 2020";
+      s += "\"Baconian Cipher\', \n   retrieved: December 11, 2020\n";
       s += "https://www.geeksforgeeks.org/baconian-cipher/";
       return s;
    }
@@ -67,8 +106,33 @@ public:
    virtual std::string encrypt(const std::string& plainText,
       const std::string& password)
    {
-      std::string cipherText = plainText;
-      // TODO - Add your code here
+      std::string cipherText = "";
+    
+      int bits = convert(password);
+
+      for (int i = 0; i < plainText.length(); i++)
+      {
+         char character = toupper(plainText[i]);
+         if (character >= 'A' && character <= 'Z')
+         {
+            std::string extraBits = "";
+            if (bits - 5 > 0) {
+               // build the extra bits
+               for (int i = 0; i < bits - 5; i++)
+               {
+                  extraBits += "a";
+               }
+               cipherText += extraBits;
+            }
+            // get the code cooresponing to the letter
+            cipherText += this->lookup[character];
+         }
+         else if (character == 32)
+         {
+            cipherText += " ";
+         }
+      }
+
       return cipherText;
    }
 
@@ -79,8 +143,23 @@ public:
    virtual std::string decrypt(const std::string& cipherText,
       const std::string& password)
    {
+      int bits = convert(password);
+
       std::string plainText = cipherText;
-      // TODO - Add your code here
+      string * splitCipher = new string[cipherText.length()];
+      // split the cipher by size of bits
+
+
+      //for (int i = 0; i < (*splitCipher).length(); i++)
+      //{
+      //   char character = cipherText[i];
+      //   if (character)
+      //   for (const auto& keyValue : lookup)
+      //   {
+
+      //   }
+      //}
+
       return plainText;
    }
 };
