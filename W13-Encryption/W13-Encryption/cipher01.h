@@ -69,6 +69,7 @@ public:
       std::string str = "";
       std::string temp = "";
 
+      // read it in from a file
       std::ifstream fin("playfair-pseudocode.txt");
 
       if (fin.fail())
