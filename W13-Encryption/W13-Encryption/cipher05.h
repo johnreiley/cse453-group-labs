@@ -191,8 +191,46 @@ public:
    virtual std::string decrypt(const std::string& cipherText,
       const std::string& password)
    {
-      std::string plainText = cipherText;
-      // TODO - Add your code here
+      std::string plainText;
+
+	  std::vector<std::vector<char>> grid;
+	  int row;
+	  int key = isInteger(password) ? abs(std::stoi(password)) : password.length();
+	  // sets lower bound on key
+	  if (key < 3)
+		  key = 3;
+	  int interval = 2 * key - 2;
+	  grid = std::vector<std::vector<char>>(key,
+		  std::vector<char>(cipherText.length(), '\0'));
+	  
+	  for (int i = 0; i < cipherText.length(); ++i)
+	  {
+		  row = getRow(i, interval);
+		  grid[row][i] = '*'; // insert 
+	  }
+	  displayGrid(grid);
+
+	  int currentLetter = 0;
+	  for (typename std::vector<std::vector<char>>::iterator it =
+		  grid.begin();
+		  it != grid.end(); ++it)
+	  {
+		  // walk-through each character in the sub-vector
+		  for (typename std::vector<char>::iterator itChar = it->begin();
+			  itChar != it->end(); ++itChar)
+		  {
+			  // if not null, insert 
+			  if (*itChar == '*')
+			  {
+				   *itChar = cipherText[currentLetter++]; // add letter to grid
+			  }
+		  }
+	  }
+	  for (int i = 0; i < cipherText.length(); i++)
+	  {
+		  row = getRow(i, interval);
+		  plainText += grid[row][i]; // insert 
+	  }
       return plainText;
    }
 private:

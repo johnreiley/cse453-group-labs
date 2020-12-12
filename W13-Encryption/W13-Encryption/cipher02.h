@@ -1,4 +1,6 @@
 #include <list>
+#include "cipher05.h"
+#include "cipher05.h"
 /********************************************************************
 * Header:
 *    Implement your cipher here. You can view 'example.h' to see the
@@ -15,7 +17,7 @@ class Cipher02 : public Cipher
 public:
    virtual std::string getPseudoAuth() { return "Garrett Smith"; }
    virtual std::string getCipherName() { return "Bifid Cipher"; }
-   virtual std::string getEncryptAuth() { return "encrypt author"; }
+   virtual std::string getEncryptAuth() { return "Justen Neeley"; }
    virtual std::string getDecryptAuth() { return "decrypt author"; }
 
    /***********************************************************
@@ -128,11 +130,12 @@ public:
 		  std::list<int> ys;
 		  for (int i = 0; i < temp.size(); i++)
 		  {
-
+			  //to use a 5*5 Polybius square, i and j are forced into the same square
 			  if (temp[i] == 'j')
 			  {
 				  temp[i] = 'i';
 			  }
+			  
 			  if (temp[i] == ' ')
 			  {
 				  continue;
@@ -141,7 +144,11 @@ public:
 			  xs.push_back(x);
 			  ys.push_back(y);
 		  }
+		  // add y values to the end of the xs list
 		  xs.splice(xs.end(), ys);
+		  /* read the n and n+1 value from the xs list to fill the
+		   * x and and y values for the ciphered letter
+		  */
 		  for (auto it = xs.begin(); it != xs.end();advance(it,2)) 
 		  {
 
