@@ -15,7 +15,7 @@ public:
    virtual std::string getPseudoAuth() { return "Joseph Sanderson"; }
    virtual std::string getCipherName() { return "Baconian Cipher"; }
    virtual std::string getEncryptAuth() { return "John Reiley"; }
-   virtual std::string getDecryptAuth() { return "decrypt author"; }
+   virtual std::string getDecryptAuth() { return "Benjamin Hansen"; }
 
    private :
       std::map<char, std::string> lookup = {
