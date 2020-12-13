@@ -5,7 +5,7 @@
 ********************************************************************/
 #ifndef CIPHER03_H
 #define CIPHER03_H
-
+#include <iostream>
 /********************************************************************
  * CLASS
  *******************************************************************/
@@ -15,7 +15,26 @@ public:
    virtual std::string getPseudoAuth() { return "Justen Neeley"; }
    virtual std::string getCipherName() { return "Vigenere Cipher"; }
    virtual std::string getEncryptAuth() { return "Joseph Sanderson"; }
-   virtual std::string getDecryptAuth() { return "decrypt author"; }
+   virtual std::string getDecryptAuth() { return "John Reiley"; }
+
+private: 
+   /****************************************************************
+    * CONVERT TO KEY
+    * Helper function for turning the user's input password into
+    * a usable key.
+    ****************************************************************/
+   std::string convertToKey(const std::string& password)
+   {
+      std::string key;
+      for (int i = 0; i < password.size(); ++i)
+      {
+         if (password[i] >= 'A' && password[i] <= 'Z')
+            key += password[i];
+         else if (password[i] >= 'a' && password[i] <= 'z')
+            key += password[i] + 'A' - 'a';
+      }
+      return key;
+   }
 
    /***********************************************************
     * GET CIPHER CITATION
@@ -56,51 +75,59 @@ public:
 
    /**********************************************************
     * ENCRYPT
-    * TODO: ADD description
+    * Encrypts plain text using the Vigenere cipher
     **********************************************************/
    virtual std::string encrypt(const std::string& plainText,
       const std::string& password)
    {
-      std::string cipherText = plainText;
-  	std::string key = password;
-		string key
-  		{
-    			for(int i = 0; i < key.size(); ++i)
-    			{
-      				if(key[i] >= 'A' && key[i] <= 'Z')
-        			this->key += key[i];
-      				else if(key[i] >= 'a' && key[i] <= 'z')
-        			this->key += key[i] + 'A' - 'a';
-    			}
-		string encrypt(string plainText)
-  		{
-    		std::string cipherText;
- 		
+      std::string cipherText;
+      std::string key = convertToKey(password);
+
 		int j = 0;
-    		for(int i = 0, i < plainText.length(); ++i)
-    		{
-      			std::string add = plainText[i];
+    	for(int i = 0; i < plainText.length(); ++i)
+    	{
+         char add = plainText[i];
  
-      			if(add >= 'a' && add <= 'z')
-        		add += 'A' - 'a';
-      			else if(add < 'A' || add > 'Z')
-        		continue;
- 			cipherText += (add + key[j] - 2*'A') % 26 + 'A'; 
-      			j = (j + 1) % key.length();
-    		}
-			
- 		 }
-      	return cipherText;
+      	if(add >= 'a' && add <= 'z')
+        	   add += 'A' - 'a';
+      	else if(add < 'A' || add > 'Z')
+        	   continue;
+ 		   cipherText += (add + key[j]) % 26 + 'A';
+      	j = (j + 1) % key.length();
+    	}
+      return cipherText;
    }
 
    /**********************************************************
     * DECRYPT
-    * TODO: ADD description
+    * Decrypts a Vigenere cipher text
     **********************************************************/
    virtual std::string decrypt(const std::string& cipherText,
       const std::string& password)
    {
-      std::string plainText = cipherText;
+      std::string plainText;
+      std::string key = convertToKey(password);
+
+      int j = 0;
+      for (int i = 0; i < cipherText.length(); ++i)
+      {
+         char add = cipherText[i];
+
+         // make sure it's uppercase
+         if (add >= 'a' && add <= 'z')
+            add += 'A' - 'a';
+         else if (add < 'A' || add > 'Z')
+            continue;
+         char res;
+         res = (add - key[j]);
+         if (res < 0)
+         {
+            res += 26;
+         }
+         // bring the value back into the A-Z range
+         plainText += res + 'A';
+         j = (j + 1) % key.length();
+      }
       
       return plainText;
    }
